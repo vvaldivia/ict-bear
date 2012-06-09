@@ -1,0 +1,10 @@
+Instalacion del ambiente
+------------------------
+Para poder trabajar en el ict-bear, se requiere un editor de texto, un navegador y un procesador de less.
+
+Navegadores objeto del desarrollo
+---------------------------------
+Mozilla based - firefox 12
+Chrome o Chromium
+IE 9 o superior.
+
