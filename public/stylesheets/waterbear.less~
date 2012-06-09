@@ -1,0 +1,462 @@
+/* WORKSPACE */
+
+/* YUI Reset, adapted */
+/*body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td {
+    margin:0;
+    padding:0;
+}
+img { 
+    border:0;
+}
+caption,cite,code,em,strong,th {
+    font-style:normal;
+    font-weight:normal;
+}
+ol,ul {
+    list-style:none;
+}
+caption,th {
+    text-align:left;
+}
+h1,h2,h3,h4,h5,h6 {
+    font-size:100%;
+    font-weight:normal;
+}
+q:before,q:after {
+    content:'';
+}
+abbr,acronym { 
+    border:0;
+}
+ */
+/* Scratch Layout Styles */
+/*
+html, body {
+    height: 100%;
+}
+
+body {
+    background-color: #FFF;
+}
+
+.content{
+    position: relative;
+    width: 200%;
+    height: 100%;
+}
+
+.tab_bar button{
+    float: right;
+}
+
+
+.workspace {
+    bottom: 0px;
+    height: 95%;
+    background-color: #FFF;
+    border: 1px solid #CCC;
+    overflow-x: hidden;
+    overflow-y: auto; 
+}
+
+.scripts_workspace, .scripts_text_view {
+    min-width: 50%;
+    min-height: 100%;
+    position: relative;
+    display: none;
+    padding: 15px;
+}
+
+.scripts_workspace {
+    display: block;
+}
+
+.drop_cursor {
+    height: 1px;
+    border-bottom: 1px solid #CCC;
+}
+
+.tab_bar{
+    left: 15%;
+    top: 6px;
+    width: 34.8%;
+    z-index: 15;
+}
+
+.tab_bar2{
+    right: -0.1%;
+    top: 30px;
+    width: 50%;
+    z-index: 15;
+}
+.chrome_tab{
+    float: left;
+    margin-right: 5px;
+    position: relative;
+    bottom: -2px;
+    border: 1px solid #666;
+    border-bottom: 0px;
+    -webkit-border-top-right-radius: 4px;
+    -webkit-border-top-left-radius: 4px;
+    -moz-border-radius-topright: 4px;
+    -moz-border-radius-topleft: 4px;
+    border-top-right-radius: 4px;
+    border-top-left-radius: 4px;
+    width: 24%;
+    background-color: #999;
+    color: #333;
+    z-index: 1;
+    cursor: pointer;
+}
+
+.chrome_tab.selected{
+    background-color: #FFF;
+    color: #000;
+    border-color: #333;
+}
+
+.stage {
+    position: absolute;
+    height: 95%;
+    right: 0px;
+    width: 49.8%;
+    bottom: -20px;
+    background-color: #FFF;
+    border: 1px solid #CCC;
+}
+
+#block_menu{
+    height: 100%;
+    left: 0px;
+    top: 0px;
+    overflow: auto;
+}
+
+#block_menu .select{
+    padding: 3px 10px;
+    margin-bottom: 1px;
+    font-weight: bold;
+    color: #333;
+    background-color: #CCC;
+    border: 1px solid #333;
+    cursor: pointer;
+}
+
+#block_menu .selected{
+    color: #000;
+    background-color: #EEE;
+}
+
+.option{
+    position: relative;
+    overflow: hidden;
+    padding: 15px;
+}
+
+.option input {
+  cursor: pointer;
+}
+
+.submenu .wrapper {
+    margin-bottom: 20px;
+    margin-right: 35px;
+    float: left;
+}
+
+.hidden{
+    display: none;
+}
+
+#color_popup{
+    background-color: green;
+    padding: 5px 10px 15px 10px;
+}
+
+#color_contents{
+    width: 300px;
+    height: 300px;
+    background-color: blue;
+}
+
+.description{
+    font-size: .8em;
+    color: #515151;
+}
+// This function isn't really needed with the left align system.
+.layout_blocks{
+    display: none;
+}
+*/
+// BLOCKS 
+// Styles for steps and containers
+.wrapper, .socket, .autosocket{
+  display: inline-block;
+  position: relative;
+}
+
+.scripts_workspace > .wrapper{
+  margin-bottom: 15px;
+}
+
+.socket {
+  position: relative;
+}
+
+.locals{
+    display: block;
+    background-color: white;
+    width: auto;
+    position: relative;
+    padding: 1px 3px 1px;
+    margin: 5px 10px;
+    overflow: auto;
+    height: auto;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    border-color: inherit;
+}
+
+.locals > .wrapper{
+    float: left;
+    margin: 5px;
+}
+
+.label {
+  cursor: pointer;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+}
+
+.block {
+  position: relative;
+  display: inline-block;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  padding-bottom: 1px;
+  border-color: inherit;
+  border-width: 2px;
+  border-style: solid;
+  white-space: nowrap; 
+  cursor: pointer;
+}
+
+.value .block{
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  border-radius: 0px;
+}
+
+.trigger > .block{
+  -webkit-border-top-right-radius: 25px;
+  -webkit-border-top-left-radius: 25px;
+  -moz-border-radius-topright: 25px;
+  -moz-border-radius-topleft: 25px;
+  border-top-right-radius: 25px;
+  border-top-left-radius: 25px;
+  padding-top: 10px;
+}
+
+.blockhead{
+  font-family: Georgia;
+  font-size: 12px;
+  white-space: nowrap;
+  padding: 5px 20px;
+  padding-bottom: 6px;
+  margin: 0px;
+  display: block;
+  
+  padding: 3px 20px;
+  padding-bottom: 5px;
+}
+.trigger .blockhead{
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.value > .block > .blockhead{
+    padding: 3px 10px 3px 10px;
+    margin: 1px;
+}
+
+// For some reason this causes the blocks to slowly loose their color
+.block .blockhead{
+    overflow-y: hidden;
+}
+.blockhead.not(:first-child)
+{
+    padding: 5px 0 5px 10px;
+    margin-top: 0;
+    position: relative;
+    display: block;
+}
+
+.containerBlock > .blockhead{
+    padding: 5px 20px;
+    padding-bottom: 6px;
+}
+/*
+.containerBlock > span.block {
+    padding-bottom: 11px;
+}
+
+.socket {
+  padding: 0px;
+  margin: 0px;
+}
+
+.value > .block{
+    border: 1px solid white;
+}
+
+
+.slot, .flap {
+  display: block;
+  left: 0px;
+  margin: 0px;
+  margin-left: 20px;
+  margin-right: auto;
+  width: 16px;
+  height: 5px;
+  -webkit-border-top-right-radius: 4px;
+  -webkit-border-top-left-radius: 4px;
+  -moz-border-radius-topright: 4px;
+  -moz-border-radius-topleft: 4px;
+  border-top-right-radius: 4px;
+  border-top-left-radius: 4px;
+  border-width: 2px 2px 0px 2px;
+  border-style: solid;
+  border-color: inherit;
+}
+
+.flap {
+  position: absolute;
+  top: -7px;
+  left: 0px;
+  background-color: inherit;
+}
+
+.slot {
+    top: -7px;
+    position: absolute;
+    background-color: #FFF;
+    width: 20px;
+}
+
+
+.contained {
+  display: block;
+  background-color: white;
+  position: relative;
+  padding-top: 1px;
+  margin-left: 10px;
+  margin-bottom: 0px;
+  padding-bottom: 10px;
+  overflow: visible;
+  -webkit-border-top-left-radius: 10px;
+  -webkit-border-bottom-left-radius: 10px;
+  -moz-border-radius-topleft: 10px;
+  -moz-border-radius-bottomleft: 10px;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-width: 2px 0px 2px 2px;
+  border-style: solid;
+  border-color: inherit;
+  right: -2px;
+}
+
+
+.next {
+  position: relative;
+  display: block;
+  background-color: transparent;
+  border-color: inherit;
+  width: 100%;
+  overflow: visible; 
+}
+
+.block input {
+  margin-left: 5px;
+  width: 3em;
+  margin-right: 5px;
+  border: 0px;
+  padding: 0px;
+  height: 16px;
+  background-color: white;
+}
+
+.block .blockhead{
+    overflow-y: hidden;
+}
+
+
+.socket{
+    border-width: 2px 0px;
+    border-style: solid;
+}
+
+.value.wrapper{
+    border-width: 0px 2px;
+    border-style: solid;
+}
+
+
+.selected > .block{
+    outline: blue ridge thick;
+}
+
+// This class is added to the block that is bieng moved when it is aligned to snap in
+.drag_active{
+}
+
+// This class is added to the block that is moving
+.drag_indication{
+    opacity: 0.75;
+}
+
+// This class is added to the block receiving the block bieng dragged.
+.socket.drop_active{
+    background-color: yellow;
+}
+.slot.drop_active{
+    background-color: yellow;
+}
+.slot.drop_active:before {
+    content: "";
+    background: red;
+    width: 10px;
+    height: 10px;
+    height: 21px;
+    width: 56px;
+    position: absolute;
+    top: 5px;
+    left: -17px;
+    content: "";
+    display: block;
+    z-index: 0;
+    background: yellow;
+
+    -moz-box-shadow: 0px 2px 20px yellow;
+    -webkit-box-shadow: 0px 2px 20px yellow;
+    box-shadow: 0px 2px 20px yellow;
+
+    -webkit-border-bottom-right-radius: 25px;
+    -webkit-border-bottom-left-radius: 25px;
+    -moz-border-radius-bottomright: 25px;
+    -moz-border-radius-bottomleft: 25px;
+    border-bottom-right-radius: 25px;
+    border-bottom-left-radius: 25px;
+}
+
+span.socket select, span.autosocket select{
+    margin: 0;
+}
+
+.contained:last-child {
+    margin-bottom: 10px;
+}
+
+*/
+
+

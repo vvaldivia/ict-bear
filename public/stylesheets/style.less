@@ -1,0 +1,49 @@
+@border-width: 1px;
+@border-radius: 4px;
+@color-highlight: lightgray;
+
+.border(@radius, @color) {
+	border-radius: @radius @radius @radius @radius;
+    -webkit-border-radius: @radius @radius @radius @radius;
+    -moz-border-radius: @radius @radius @radius @radius;
+	border-color: @color;
+	border-width: @border-width;
+	border-style: solid;
+}
+
+h1
+{
+  font-family: Arial;
+}
+
+.subcolumns
+{
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+
+.tools
+{
+  float: left;
+  width: 30%;
+  //.border(@border-radius, @color-highlight);
+  div.ui-accordion-content
+  {
+    /*
+    El siguiente elemento es necesario para que al arrastrar una herramienta, esta "pase"
+    al panel de trabajo. De lo contrario, con overflow: hidden, al arrastrar se produce
+    scrolling sobre el contenido del acordeon, y jamas se logra llegar al area de trabajo
+    */
+    overflow: visible;
+  }
+}
+
+.workspace
+{
+  float: right;
+  width: 69.6%;
+//  margin-right: -8px;
+  .border(@border-radius, @color-highlight);
+}
+
