@@ -230,7 +230,13 @@ $.fn.extend({
                         containers: 1,
                         script: 'setTimeout(function(){[[1]]},1000*{{1}});',
                         help: 'pause before running the following blocks'
-                    }
+                    },
+		    {
+			label: 'square root of [number:10]', 
+			'type': 'number', 
+			script: 'Math.sqrt({{1}})',
+			help: 'the square root is the same as taking the to the power of 1/2'
+		  }
                 ]
             },
             {
@@ -307,9 +313,19 @@ $.fn.extend({
         var $workspaceDiv = plugin_data.$target.find('div.workspace');
         $workspaceDiv.droppable({
             drop: function(event,ui) {
-                ui.draggable.clone().appendTo($(this));
+	        clone = ui.draggable.clone().appendTo($(this));
+		clone.droppable("destroy");
+		clone.droppable({
+		  greedy: true,
+		  drop:function(event2, ui2) {
+		    // TODO: agregar codigo para insertar un  elemento dentro de otro
+		  }
+		});
+		  
             }
         });
+	
+	
     };
 
     /* routines grabbed from blocks.js */
