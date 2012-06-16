@@ -296,7 +296,7 @@ body {
     padding: 5px 20px;
     padding-bottom: 6px;
 }
-/*
+
 .containerBlock > span.block {
     padding-bottom: 11px;
 }
@@ -456,7 +456,4 @@ span.socket select, span.autosocket select{
 .contained:last-child {
     margin-bottom: 10px;
 }
-
-*/
-
 

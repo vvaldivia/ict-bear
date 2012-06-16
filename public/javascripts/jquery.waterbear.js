@@ -236,12 +236,22 @@ $.fn.extend({
                         script: 'setTimeout(function(){[[1]]},1000*{{1}});',
                         help: 'pause before running the following blocks'
                     },
-		    {
-			label: 'square root of [number:10]', 
-			'type': 'number', 
-			script: 'Math.sqrt({{1}})',
-			help: 'the square root is the same as taking the to the power of 1/2'
-		  }
+                    {
+                        label: 'square root of [number:10]', 
+                        'type': 'number', 
+                        script: 'Math.sqrt({{1}})',
+                        help: 'the square root is the same as taking the to the power of 1/2'
+                    },
+ 
+                    {
+                        label: 'if [boolean]', 
+                        containers: 2,
+                        subContainerLabels: ['else'],
+                        script: 'if({{1}}){[[1]]}else{[[2]]}',
+                        help: 'run the first set of blocks if the condition is true, otherwise run the second set'
+                    }
+ 
+		  
                 ]
             },
             {
@@ -323,9 +333,11 @@ $.fn.extend({
             clone.droppable({
               greedy: true,
               drop:function(event2, ui2) {
-                // TODO: agregar codigo para insertar un  elemento dentro de otro
+                // TODO: hacer este droppable transitivo
                 // dropabble debe de aceptar el bloque dentro de el slot
-                ui2.draggable.clone().appendTo($(this).find(".slot").first());
+                ui2.draggable.clone().appendTo($(this).find(".contained").first());
+                // debe modificar  el  bloque que lo contiene para contener correctamente el bloque interno
+                
               }
             });
               
@@ -385,6 +397,7 @@ $.fn.extend({
         wrapper.data('scope', scope);
     }
     */
+    
     /*
     wrapper.data('label', opts.label);
     wrapper.data('klass', opts.klass);
@@ -395,11 +408,11 @@ $.fn.extend({
     wrapper.data('type', opts['type']);
     wrapper.data('containers', opts.containers);
     */
-    /*
+    
     if(opts.containers > 1){
         wrapper.data('subContainerLabels', opts['subContainerLabels']);
     }
-    */
+    
 
     var _block = wrapper.children();
     //_block.find('.socket').addSocketHelp();
@@ -411,6 +424,7 @@ $.fn.extend({
         _block.addClass(opts['type']);
         wrapper.addClass('value').addClass(opts['type']);
     }
+    /*
     if (opts.locals.length){
         $.each(opts.locals, function(idx, value){
             if ($.isPlainObject(value)){
@@ -467,34 +481,54 @@ $.fn.extend({
             self.next_block().trigger('delete_block');
         });
     }
+    */
+    // generacion containers
+    /*
     if(opts.containers > 0){
         wrapper.addClass('containerBlock'); //This might not be necessary
     }
+    */
+    
     for(i=0; i<opts.containers; i++){
         ContainerLabel='';
+        
         if(opts.containers > 1){
+            // genera el label para el segundo container
             if(i != (opts.containers-1)){
                 ContainerLabel='<span class="blockhead"><span class="label">'+label(wrapper.data('subContainerLabels')[i])+'</span></span>';
             }
         }
         _block.append('</b><span class="contained"><i class="slot"></i></span>'+ContainerLabel);
     }
+    
+    // generacion de folds
+    /*
     if (opts.containers){
         _block.find('> .blockhead > .label').prepend('<span class="disclosure open">▼</span>');
     }
+    */
+    
+    
+    
     if (opts.trigger){
+        // evento
         wrapper.addClass('trigger');
         wrapper.data('type', 'trigger');
-        _block.append('<b class="trigger"></b>');
+//        _block.append('<b class="trigger"></b>');
+
     }else if(opts.flap){
+        // permite insertarlo despues de otra instruccion
         _block.append('<b class="flap"></b>');
         wrapper.addClass('step');
         wrapper.data('type', 'step');
+
     }
-    
+    // permite insertar un bloque despues
     if (opts.slot){
         wrapper.append('<span class="next"><i class="slot"></i></span>');
     }
+    
+    /*
     if (opts.sockets){
         debug('sockets: %o', opts.sockets);
         $.each(opts.sockets, function(idx, value){
@@ -516,6 +550,10 @@ $.fn.extend({
             }
         });
     }
+    */
+    
+    /*
+     // que hace esto?
     if (opts.contained){
         $.each(opts.contained, function(idx, value){
             if ($.isPlainObject(value)){
@@ -526,6 +564,8 @@ $.fn.extend({
             }
         });
     }
+    */
+    /*
     if (opts.next){
         if ($.isPlainObject(opts.next)){
             var child = block(opts.next);
@@ -535,17 +575,19 @@ $.fn.extend({
         }
     }
     */
+    
     // add update handlers
     return wrapper;
 };
 
-    block.nextId = 0;
-
+//    block.nextId = 0;
+/*
     getContained = function (s) {
         if(s.closest('.blockhead').next().is('.contained'))
             return s.closest('.blockhead').next('.contained');
         return s.closest('.blockhead').next().next();
     };
+*/
 
     label = function (value) {
         // Recognize special values in the label string and replace them with 
@@ -564,17 +606,18 @@ $.fn.extend({
         // etc…
 
         // FIXME: Move specific type handling to raphael_demo.js
-        value = value.replace(/\[boolean:(true|false)\]/gm, '<span class="value boolean socket" data-type="boolean"><select><option>true</option><option selected>false</option></select></span>');
-        value = value.replace(/\[boolean\]/gm, '<span class="value boolean socket" data-type="boolean"><select><option>true</option><option>false</option></select></span>');
-        value = value.replace(/(?:\[choice\:)(\w+)(?:\:)(\w+)(?:\])/gm, choice_func);
-        value = value.replace(/(?:\[choice\:)(\w+)(?:\])/gm, choice_func);
+       //  value = value.replace(/\[boolean:(true|false)\]/gm, '<span class="value boolean socket" data-type="boolean"><select><option>true</option><option selected>false</option></select></span>');
+      //  value = value.replace(/\[boolean\]/gm, '<span class="value boolean socket" data-type="boolean"><select><option>true</option><option>false</option></select></span>');
+       // value = value.replace(/(?:\[choice\:)(\w+)(?:\:)(\w+)(?:\])/gm, choice_func);
+      //  value = value.replace(/(?:\[choice\:)(\w+)(?:\])/gm, choice_func);
         // match selector [^\[\]] should match any character except '[', ']', and ':'
-        value = value.replace(/\[([^\[\]\:]+):([^\[\]]+)\]/gm, '<span class="value $1 socket" data-type="$1"><input type="$1" value="$2"></span>');
-        value = value.replace(/\[([^\[\]:]+)\]/gm, '<span class="value $1 socket" data-type="$1"><input type="$1"></span>');
-        value = value.replace(/##/gm, '');
+          value = value.replace(/\[([^\[\]\:]+):([^\[\]]+)\]/gm, '<span class="value $1 socket" data-type="$1"><input type="$1" value="$2"></span>'); // contador
+      //  value = value.replace(/\[([^\[\]:]+)\]/gm, '<span class="value $1 socket" data-type="$1"><input type="$1"></span>');
+      //  value = value.replace(/##/gm, '');
         return value;
     };
 
+    /*
     choice_func = function (s, listname, default_opt) {
         var list = choice_lists[listname];
         return '<span class="value string ' + listname + ' autosocket" data-type="  "><select>' +
@@ -587,6 +630,6 @@ $.fn.extend({
         }).join('') +
         '</select></span>';
     };
-
+*/
 })(jQuery);
 
