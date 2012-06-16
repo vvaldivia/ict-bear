@@ -330,6 +330,7 @@ $.fn.extend({
             drop: function(event,ui) {
             clone = ui.draggable.clone().appendTo($(this)).droppable({
               greedy: true,
+              tolerance: "pointer",
               drop:function(event2, ui2) {
                 insertInBlock($(this),event2, ui2);
                 // TODO: hacer este droppable transitivo
@@ -348,6 +349,7 @@ $.fn.extend({
     function insertInBlock(container, event, ui) {
           ui.draggable.clone().appendTo(container.find(".contained").first()).droppable({
             greedy: true,
+            tolerance: "pointer",
             drop: function (event2, ui2) {
                 insertInBlock($(this),event2, ui2);
             }

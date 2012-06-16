@@ -346,7 +346,12 @@ $.fn.extend({
     };
 
     function insertInBlock(container, event, ui) {
-          ui.draggable.clone().appendTo(container.find(".contained").first());
+          ui.draggable.clone().appendTo(container.find(".contained").first()).droppable({
+            greedy: true,
+            drop: function (event2, ui2) {
+                insertInBlock($(this),event2, ui2);
+            }
+          });
     }
     /* routines grabbed from blocks.js */
 
