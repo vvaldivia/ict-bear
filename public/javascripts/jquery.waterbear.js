@@ -328,24 +328,22 @@ $.fn.extend({
         var $workspaceDiv = plugin_data.$target.find('div.workspace');
         $workspaceDiv.droppable({
             drop: function(event,ui) {
-              clone = ui.draggable.clone().appendTo($(this)).find(".contained").css("height","50px").droppable({
               //clone = ui.draggable.clone().appendTo($(this)).droppable({
+ 
+            ui.draggable.clone().appendTo($(this)).find(".contained").css("min-height","20px").droppable({
               greedy: true,
               tolerance: "pointer",
               drop:function(event2, ui2) {
                 insertInBlock($(this),event2, ui2);
               }
-            });
-              
+            });              
         }
       });
-
-
     };
 
     function insertInBlock(container, event, ui) {
-      ui.draggable.clone().appendTo(container).find(".contained").css("height","50px").droppable({
       //ui.draggable.clone().appendTo(container.find(".contained").first()).droppable({
+      ui.draggable.clone().appendTo(container).find(".contained").css("min-height","20px").droppable({
         greedy: true,
         tolerance: "pointer",
         drop: function (event2, ui2) {
@@ -507,15 +505,11 @@ $.fn.extend({
         _block.append('</b><span class="contained"><i class="slot"></i></span>'+ContainerLabel);
     }
     
-    // generacion de folds
-    /*
+    // generacion de folds 
     if (opts.containers){
         _block.find('> .blockhead > .label').prepend('<span class="disclosure open">▼</span>');
     }
-    */
-    
-    
-    
+   
     if (opts.trigger){
         // evento
         wrapper.addClass('trigger');
