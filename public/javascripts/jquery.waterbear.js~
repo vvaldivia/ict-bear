@@ -328,13 +328,12 @@ $.fn.extend({
         var $workspaceDiv = plugin_data.$target.find('div.workspace');
         $workspaceDiv.droppable({
             drop: function(event,ui) {
-            clone = ui.draggable.clone().appendTo($(this));
-            clone.droppable("destroy");
-            clone.droppable({
+            clone = ui.draggable.clone().appendTo($(this)).droppable({
               greedy: true,
               drop:function(event2, ui2) {
+                insertInBlock($(this),event2, ui2);
+                // TODO: hacer este droppable transitivo
                 // dropabble debe de aceptar el bloque dentro de el slot
-                ui2.draggable.clone().appendTo($(this).find(".contained").first());
                 // debe modificar  el  bloque que lo contiene para contener correctamente el bloque interno
                 
               }
@@ -346,6 +345,9 @@ $.fn.extend({
 
     };
 
+    function insertInBlock(container, event, ui) {
+          ui.draggable.clone().appendTo(container.find(".contained").first());
+    }
     /* routines grabbed from blocks.js */
 
     block = function (options, scope){
