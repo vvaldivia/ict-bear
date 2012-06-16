@@ -6,6 +6,7 @@
 
 
 $.extend($.fn, {
+  /*
     long_name: function () {
         var names;
         names = [];
@@ -74,6 +75,7 @@ $.extend($.fn, {
         locals.append(block);
         return this;
     },
+    
     addSocketHelp: function () {
         var self = $(this);
         var type = self.block_type();
@@ -83,8 +85,9 @@ $.extend($.fn, {
         }
         $(this).attr('title', desc);
     }
+    */
 });
-
+/*
 $.selected_block = function () {
     return $('.scripts_workspace .selected');
 };
@@ -126,8 +129,10 @@ $.fn.extend({
         desc.next = this.next_block().block_description();
         return desc;
     }
+    
 });
 
+*/
 /**
 * Title: jquery.waterbear.js
 * 
@@ -375,9 +380,12 @@ $.fn.extend({
     // console.log('wrapping "%s" with label, non-id path', opts.label);
     // aqui se empieza a crear el dom del objeto
     var wrapper = $('<span class="wrapper ' + opts.klass + '"><span class="block"><span class="blockhead"><span class="label">' + label(opts.label) + '</span></span></span></span>');
+    /*
     if (scope){
         wrapper.data('scope', scope);
     }
+    */
+    /*
     wrapper.data('label', opts.label);
     wrapper.data('klass', opts.klass);
     wrapper.data('position', opts.position);
@@ -386,11 +394,16 @@ $.fn.extend({
     wrapper.data('locals', opts.locals);
     wrapper.data('type', opts['type']);
     wrapper.data('containers', opts.containers);
+    */
+    /*
     if(opts.containers > 1){
         wrapper.data('subContainerLabels', opts['subContainerLabels']);
     }
+    */
+
     var _block = wrapper.children();
-    _block.find('.socket').addSocketHelp();
+    //_block.find('.socket').addSocketHelp();
+    /*
     if (opts['help']){
         _block.attr('title', opts['help']);
     }
@@ -521,6 +534,7 @@ $.fn.extend({
             child.trigger('add_to_script');
         }
     }
+    */
     // add update handlers
     return wrapper;
 };
