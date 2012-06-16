@@ -313,19 +313,21 @@ $.fn.extend({
         var $workspaceDiv = plugin_data.$target.find('div.workspace');
         $workspaceDiv.droppable({
             drop: function(event,ui) {
-	        clone = ui.draggable.clone().appendTo($(this));
-		clone.droppable("destroy");
-		clone.droppable({
-		  greedy: true,
-		  drop:function(event2, ui2) {
-		    // TODO: agregar codigo para insertar un  elemento dentro de otro
-		  }
-		});
-		  
-            }
-        });
-	
-	
+            clone = ui.draggable.clone().appendTo($(this));
+            clone.droppable("destroy");
+            clone.droppable({
+              greedy: true,
+              drop:function(event2, ui2) {
+                // TODO: agregar codigo para insertar un  elemento dentro de otro
+                // dropabble debe de aceptar el bloque dentro de el slot
+                ui2.draggable.clone().appendTo($(this).find(".slot").first());
+              }
+            });
+              
+        }
+      });
+
+
     };
 
     /* routines grabbed from blocks.js */
@@ -371,6 +373,7 @@ $.fn.extend({
         opts.flap = false;
     }
     // console.log('wrapping "%s" with label, non-id path', opts.label);
+    // aqui se empieza a crear el dom del objeto
     var wrapper = $('<span class="wrapper ' + opts.klass + '"><span class="block"><span class="blockhead"><span class="label">' + label(opts.label) + '</span></span></span></span>');
     if (scope){
         wrapper.data('scope', scope);
