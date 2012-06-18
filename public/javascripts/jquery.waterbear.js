@@ -332,7 +332,8 @@ $.fn.extend({
  
             ui.draggable.clone().appendTo($(this)).find(".contained").css("min-height","20px").droppable({
               greedy: true,
-              tolerance: "pointer",
+              tolerance: "touch",
+              hoverClass: "drophover", 
               drop:function(event2, ui2) {
                 insertInBlock($(this),event2, ui2);
               }
@@ -342,14 +343,17 @@ $.fn.extend({
     };
 
     function insertInBlock(container, event, ui) {
-      //ui.draggable.clone().appendTo(container.find(".contained").first()).droppable({
-      ui.draggable.clone().appendTo(container).find(".contained").css("min-height","20px").droppable({
+     
+     container.droppable("destroy");
+     ui.draggable.clone().appendTo(container).draggable().find(".contained").css("min-height","20px").droppable({
         greedy: true,
-        tolerance: "pointer",
+        tolerance: "touch",
+        hoverClass: "drophover", 
         drop: function (event2, ui2) {
             insertInBlock($(this),event2, ui2);
         }
       });
+      
     }
     /* routines grabbed from blocks.js */
 
