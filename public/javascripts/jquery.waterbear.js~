@@ -361,7 +361,7 @@ $.fn.extend({
       $dragged_block = null;
       if (ui.helper.hasClass('dragged_from_toolbar')) $dragged_block = ui.draggable.clone();
       else  $dragged_block = ui.draggable;
-      container.droppable('destroy').find('.contained').droppable('destroy');
+      container.droppable('destroy').find('.contained');
       $dragged_block.appendTo(container).draggable({
          helper: 'clone',
               connectToSortable: true,
