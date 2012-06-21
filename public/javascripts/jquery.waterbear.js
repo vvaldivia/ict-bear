@@ -328,6 +328,8 @@ $.fn.extend({
           }
         });
         var $workspaceDiv = plugin_data.$target.find('div.workspace');
+        
+        
         $workspaceDiv.sortable().droppable({
             drop: function(event,ui) {
             $dragged_block = null;
@@ -336,11 +338,14 @@ $.fn.extend({
             $dragged_block.appendTo($(this)).draggable({
               helper: 'clone',
               connectToSortable: true,
+              drag: function (event2, ui2) {
+                $(this).parents('.contained').first().droppable('enable');
+              }
             })
             .find(".contained").droppable({
               greedy: true,
-              tolerance: "touch",
-              hoverClass: "drophover", 
+              tolerance: 'touch',
+              hoverClass: 'drophover', 
               drop:function(event2, ui2) {                                         
                 insertInBlock($(this),event2, ui2);
               }
@@ -350,7 +355,9 @@ $.fn.extend({
       });
     };
 
+    
     function insertInBlock(container, event, ui) {
+      container.droppable("disable");
       $dragged_block = null;
       if (ui.helper.hasClass('dragged_from_toolbar')) $dragged_block = ui.draggable.clone();
       else  $dragged_block = ui.draggable;
@@ -358,11 +365,14 @@ $.fn.extend({
       $dragged_block.appendTo(container).draggable({
         helper: 'clone',
         connectToSortable: true,
+        drag: function (event2, ui2) {
+                $(this).parents('.contained').first().droppable('enable');
+        }
       })
       .find(".contained").droppable({
         greedy: true,
-        tolerance: "touch",
-        hoverClass: "drophover", 
+        tolerance: 'touch',
+        hoverClass: 'drophover', 
         drop: function (event2, ui2) {
             insertInBlock($(this),event2, ui2);
         }
