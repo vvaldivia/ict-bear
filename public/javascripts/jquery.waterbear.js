@@ -341,9 +341,9 @@ $.fn.extend({
               drag: function (event, ui) {
                 //ui.helper.find('.contained').droppable('destroy');
               } 
-            });
+            })
             
-            /*
+            
             .find(".contained").droppable({
               greedy: true,
               tolerance: "touch",
@@ -351,15 +351,24 @@ $.fn.extend({
               drop:function(event2, ui2) {                                         
                 insertInBlock($(this),event2, ui2);
               }
-            });              */
+            });              
+            
         }
       });
     };
 
     function insertInBlock(container, event, ui) {
-     
+      $dragged_block = null;
+      if (ui.helper.hasClass('dragged_from_toolbar')) $dragged_block = ui.draggable.clone();
+      else  $dragged_block = ui.draggable;
       container.droppable('destroy').find('.contained').droppable('destroy');
-      ui.draggable.clone().appendTo(container).draggable().find(".contained").droppable({
+      $dragged_block.appendTo(container).draggable({
+         helper: 'clone',
+              connectToSortable: true,
+              drag: function (event, ui) {
+                //ui.helper.find('.contained').droppable('destroy');
+              }  
+      }).find(".contained").droppable({
         greedy: true,
         tolerance: "touch",
         hoverClass: "drophover", 
