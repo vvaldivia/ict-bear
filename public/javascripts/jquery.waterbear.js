@@ -330,20 +330,13 @@ $.fn.extend({
         var $workspaceDiv = plugin_data.$target.find('div.workspace');
         $workspaceDiv.sortable().droppable({
             drop: function(event,ui) {
-            
             $dragged_block = null;
             if (ui.helper.hasClass('dragged_from_toolbar')) $dragged_block = ui.draggable.clone();
             else  $dragged_block = ui.draggable;
-            
             $dragged_block.appendTo($(this)).draggable({
               helper: 'clone',
               connectToSortable: true,
-              drag: function (event, ui) {
-                //ui.helper.find('.contained').droppable('destroy');
-              } 
             })
-            
-            
             .find(".contained").droppable({
               greedy: true,
               tolerance: "touch",
@@ -363,12 +356,10 @@ $.fn.extend({
       else  $dragged_block = ui.draggable;
       container.find('.contained');
       $dragged_block.appendTo(container).draggable({
-         helper: 'clone',
-              connectToSortable: true,
-              drag: function (event, ui) {
-                //ui.helper.find('.contained').droppable('destroy');
-              }  
-      }).find(".contained").droppable({
+        helper: 'clone',
+        connectToSortable: true,
+      })
+      .find(".contained").droppable({
         greedy: true,
         tolerance: "touch",
         hoverClass: "drophover", 
