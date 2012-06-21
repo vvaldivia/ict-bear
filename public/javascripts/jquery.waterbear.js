@@ -253,10 +253,6 @@ $.fn.extend({
  
 		  
                 ]
-            },
-            {
-              title: 'Otros',
-              items: []
             }
         ],
         get: {
@@ -324,13 +320,22 @@ $.fn.extend({
             $toolsDiv.append($section);
         });
         $toolsDiv.accordion();
-        $toolsDiv.find('span.wrapper').draggable({helper: 'clone'});
+        $toolsDiv.find('span.wrapper').draggable({
+          helper: 'clone',
+          drag: function (event, ui) {
+            ui.helper.addClass('dragged_from_toolbar');
+          }
+        });
         var $workspaceDiv = plugin_data.$target.find('div.workspace');
         $workspaceDiv.droppable({
             drop: function(event,ui) {
-              //clone = ui.draggable.clone().appendTo($(this)).droppable({
- 
-            ui.draggable.clone().appendTo($(this)).find(".contained").css("min-height","20px").droppable({
+            // tenemos que diferenciar entre dragables que vienen desde el toolbox 
+             // y piezas que bienen desde aqui mismo
+            $dragged_block = null;
+            if (ui.helper.hasClass('dragged_from_toolbar'))   $dragged_block = ui.draggable.clone();
+            else  $dragged_block = ui.draggable;
+            
+            $dragged_block.appendTo($(this)).draggable().find(".contained").droppable({
               greedy: true,
               tolerance: "touch",
               hoverClass: "drophover", 
@@ -344,8 +349,8 @@ $.fn.extend({
 
     function insertInBlock(container, event, ui) {
      
-     container.droppable("destroy");
-     ui.draggable.clone().appendTo(container).draggable().find(".contained").css("min-height","20px").droppable({
+      container.droppable("destroy").find('.contained').droppable('destroy');
+      ui.draggable.clone().appendTo(container).draggable().find(".contained").droppable({
         greedy: true,
         tolerance: "touch",
         hoverClass: "drophover", 
