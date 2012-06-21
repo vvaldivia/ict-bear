@@ -322,34 +322,41 @@ $.fn.extend({
         $toolsDiv.accordion();
         $toolsDiv.find('span.wrapper').draggable({
           helper: 'clone',
+          connectToSortable: true,
           drag: function (event, ui) {
             ui.helper.addClass('dragged_from_toolbar');
           }
         });
         var $workspaceDiv = plugin_data.$target.find('div.workspace');
-        $workspaceDiv.droppable({
+        $workspaceDiv.sortable().droppable({
             drop: function(event,ui) {
-            // tenemos que diferenciar entre dragables que vienen desde el toolbox 
-             // y piezas que bienen desde aqui mismo
+            
             $dragged_block = null;
-            if (ui.helper.hasClass('dragged_from_toolbar'))   $dragged_block = ui.draggable.clone();
+            if (ui.helper.hasClass('dragged_from_toolbar')) $dragged_block = ui.draggable.clone();
             else  $dragged_block = ui.draggable;
             
-            $dragged_block.appendTo($(this)).draggable().find(".contained").droppable({
+            $dragged_block.appendTo($(this)).draggable({
+              drag: function (event, ui) {
+                //ui.helper.find('.contained').droppable('destroy');
+              } 
+            });
+            
+            /*
+            .find(".contained").droppable({
               greedy: true,
               tolerance: "touch",
               hoverClass: "drophover", 
-              drop:function(event2, ui2) {
+              drop:function(event2, ui2) {                                         
                 insertInBlock($(this),event2, ui2);
               }
-            });              
+            });              */
         }
       });
     };
 
     function insertInBlock(container, event, ui) {
      
-      container.droppable("destroy");
+      container.droppable('destroy').find('.contained').droppable('destroy');
       ui.draggable.clone().appendTo(container).draggable().find(".contained").droppable({
         greedy: true,
         tolerance: "touch",
