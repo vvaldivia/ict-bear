@@ -34,4 +34,4 @@ span.socket select,span.autosocket select{margin:0;}
 .contained:last-child{margin-bottom:10px;}
 
 .drophover { background-color: yellow;}
-.drophover.ui-state-disabled { background-color: white;}
+.drophover.slot_disabled { background-color: white;}

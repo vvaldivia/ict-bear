@@ -358,7 +358,7 @@ $.fn.extend({
                 tolerance: 'touch',
                 hoverClass: 'drophover', 
                 drop: function (event2, ui2) {
-                    $(this).droppable("disable");
+                    $(this).droppable("disable").removeClass("ui-state-disabled").addClass("slot_disabled");
                     insertInBlock($(this),event2, ui2);
                 }
             });

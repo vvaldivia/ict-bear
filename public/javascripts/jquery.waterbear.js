@@ -350,7 +350,7 @@ $.fn.extend({
                 helper: 'clone',
                 connectToSortable: true,
                 drag: function (event2, ui2) {
-                        $(this).parents('.contained').first().droppable('enable');
+                        $(this).parents('.contained').first().droppable('enable').removeClass("slot_disabled");
                 }
             })
             .find(".contained").droppable({  // permite poder dejar otros bloques en los slots de este bloque
@@ -358,7 +358,7 @@ $.fn.extend({
                 tolerance: 'touch',
                 hoverClass: 'drophover', 
                 drop: function (event2, ui2) {
-                    $(this).droppable("disable");
+                    $(this).droppable("disable").removeClass("ui-state-disabled").addClass("slot_disabled");
                     insertInBlock($(this),event2, ui2);
                 }
             });
