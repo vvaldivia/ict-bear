@@ -339,62 +339,56 @@ $.fn.extend({
     };
     
     function insertInBlock($container, event, ui) {
-        $dragged_block = null;
+        $draggedBlock = null;
         // si el drag viene de tools, debemos clonar el bloque
         if (ui.helper.hasClass('dragged_from_toolbar')) { 
-            $dragged_block = ui.draggable.clone();
+            $draggedBlock = ui.draggable.clone();
         }
         else {
-            $dragged_block = ui.draggable;
+            $draggedBlock = ui.draggable;
         }
-        $dragged_block
+        $draggedBlock.find('.next').css('min-height','10px');
+        $draggedBlock
             .appendTo($container)        // pega el bloque en el slot
             .draggable({                // permite poder volver a sacar el bloque del slot
                 drag: function (event2, ui2) {
-                    $(".encima").removeClass("hotspot").first().addClass("hotspot");
+                    $('.encima').removeClass('hotspot').first().addClass('hotspot');
                 },
                 helper: 'clone',
                 connectToSortable: true,
                 start: function (event2, ui2) {
-                    $(this).parents('.contained').first().droppable('enable').removeClass("slot_disabled");
+                    $(this).parents('.contained').first().droppable('enable').removeClass('slot_disabled');
                 }
             })
-            .find(".contained").droppable({  // permite poder dejar otros bloques en los slots de este bloque
+            .find('.contained').droppable({  // permite poder dejar otros bloques en los slots de este bloque
                 over: function (event2, ui2) {             
-                    $(this).addClass("encima");             
+                    $(this).addClass('encima');             
                 },
                 out: function (event2, ui2) {
-                    $(this).removeClass("encima").removeClass("hotspot");
+                    $(this).removeClass('encima').removeClass('hotspot');
                 },
                 greedy: true,
                 tolerance: 'touch',
-                hoverClass: 'drophover', 
                 drop: function (event2, ui2) {
                   
-                    if ($(this).hasClass("hotspot")) {
-                        $(this).droppable("disable").removeClass("ui-state-disabled").addClass("slot_disabled").removeClass("hotspot");
+                    if ($(this).hasClass('hotspot')) {
+                        $(this).droppable('disable').removeClass('ui-state-disabled').addClass('slot_disabled').removeClass('hotspot');
                         insertInBlock($(this),event2, ui2); 
                     }                 
-                    $(this).removeClass("encima").removeClass("hotspot");
+                    $(this).removeClass('encima').removeClass('hotspot');
                 }
             });
     }
     
-    
-    function masCercano(slot, slots) {
-    //                slotPosition = $(this).offset();
-    //               dy = ui2.position.top-slotPosition.top;
-    //              dx = ui2.position.left-slotPosition.left;        
-    //             distancia = Math.sqrt(dx*dx + dy*dy);     
-    //            console.log("dist %d", distancia);
-    
-        console.log("slots %d", slots.length);
-        if (slot[0] == slots.first()[0])
-          return true;
-        else
-          return false;
+    function  masCercano($bloque, $slots) {
+       var $menor;
+       var menorDist = 999999;
+       $.each($lots, function (key, val) {
+           dy = $bloque.offset().top-val.offset().top;
+           dx = $bloque.offset().left-val.offset().left;
+           distancia = Math.sqrt(dx*dx+dy*dy);      
+       });
     }
-    
     
     /* routines grabbed from blocks.js */
 
