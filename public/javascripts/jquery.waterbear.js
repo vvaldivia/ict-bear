@@ -354,23 +354,41 @@ $.fn.extend({
                 }
             })
             .find(".contained").droppable({  // permite poder dejar otros bloques en los slots de este bloque
-                over: function (event2, ui2) {         
-                    position = $(this).offset();
-                    dy = ui.position.top-position.top;
-                    dx = ui.position.left-position.left;
-                    
+                over: function (event2, ui2) {             
+                    $(this).addClass("encima");                
+                    slotPosition = $(this).offset();
+                    dy = ui2.position.top-slotPosition.top;
+                    dx = ui2.position.left-slotPosition.left;        
                     distancia = Math.sqrt(dx*dx + dy*dy);     
                     console.log("dist %d", distancia);
+                    
+                },
+                out: function (event2, ui2) {
+                    $(this).removeClass("encima");
                 },
                 greedy: true,
                 tolerance: 'touch',
                 hoverClass: 'drophover', 
                 drop: function (event2, ui2) {
-                    $(this).droppable("disable").removeClass("ui-state-disabled").addClass("slot_disabled");
-                    insertInBlock($(this),event2, ui2);
+                    slots = $(".encima");
+                    if (mas_cercano($(this),slots)){
+                        $(this).droppable("disable").removeClass("ui-state-disabled").addClass("slot_disabled");
+                        insertInBlock($(this),event2, ui2);
+                    }
+                    slots.removeClass("encima");
                 }
             });
     }
+    
+    function mas_cercano(slot, slots) {
+        console.log("slots %d", slots.length);
+        if (slot[0] == slots.first()[0])
+          return true;
+        else
+          return false;
+    }
+    
+    
     /* routines grabbed from blocks.js */
 
     block = function (options, scope){
