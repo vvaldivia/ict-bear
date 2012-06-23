@@ -355,13 +355,7 @@ $.fn.extend({
             })
             .find(".contained").droppable({  // permite poder dejar otros bloques en los slots de este bloque
                 over: function (event2, ui2) {             
-                    $(this).addClass("encima");                
-                    slotPosition = $(this).offset();
-                    dy = ui2.position.top-slotPosition.top;
-                    dx = ui2.position.left-slotPosition.left;        
-                    distancia = Math.sqrt(dx*dx + dy*dy);     
-                    console.log("dist %d", distancia);
-                    
+                    $(this).addClass("encima");                                    
                 },
                 out: function (event2, ui2) {
                     $(this).removeClass("encima");
@@ -381,6 +375,12 @@ $.fn.extend({
     }
     
     function mas_cercano(slot, slots) {
+    //                slotPosition = $(this).offset();
+    //               dy = ui2.position.top-slotPosition.top;
+    //              dx = ui2.position.left-slotPosition.left;        
+    //             distancia = Math.sqrt(dx*dx + dy*dy);     
+    //            console.log("dist %d", distancia);
+    
         console.log("slots %d", slots.length);
         if (slot[0] == slots.first()[0])
           return true;
