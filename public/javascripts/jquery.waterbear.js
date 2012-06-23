@@ -298,8 +298,8 @@ $.fn.extend({
         },
         template:
 '<div class="subcolumns">' +
-'           <div class="tools" style="height: 400px">' +
-'             <div class="accordion"></div>' +
+'           <div class="tools" style="height: 400px; overflow: visible">' +
+'             <div class="accordion" style="overflow: visible"></div>' +
 '           </div>' +
 '           <div class="workspace" style="height: 400px">' +
 '           </div>' +
@@ -309,10 +309,10 @@ $.fn.extend({
     createLayout = function (plugin_data) {
         var $toolsDiv = plugin_data.$target.find('div.accordion');
         $.each(plugin_data.options.tools, function (toolindex, tool) {
-            var $section = $('<div></div>', {
+            var $section = $('<div style="overflow: visible"></div>', {
             });
             $.each(tool.items, function (index, item) {
-                var $option = $('<div></div>');
+                var $option = $('<div style="overflow: visible"></div>');
                 $option.append(block(item));
                 $section.append($option);
             });
