@@ -321,63 +321,47 @@ $.fn.extend({
         });
         $toolsDiv.accordion();
         $toolsDiv.find('span.wrapper').draggable({
-          helper: 'clone',
-          connectToSortable: true,
-          drag: function (event, ui) {
-            ui.helper.addClass('dragged_from_toolbar');
-          }
+            helper: 'clone',
+            connectToSortable: true,
+            drag: function (event, ui) {
+                ui.helper.addClass('dragged_from_toolbar');
+            }
         });
         var $workspaceDiv = plugin_data.$target.find('div.workspace');
-        
-        
         $workspaceDiv.sortable().droppable({
             drop: function(event,ui) {
-            $dragged_block = null;
-            if (ui.helper.hasClass('dragged_from_toolbar')) $dragged_block = ui.draggable.clone();
-            else  $dragged_block = ui.draggable;
-            $dragged_block.appendTo($(this)).draggable({
-              helper: 'clone',
-              connectToSortable: true,
-              drag: function (event2, ui2) {
-                $(this).parents('.contained').first().droppable('enable');
-              }
-            })
-            .find(".contained").droppable({
-              greedy: true,
-              tolerance: 'touch',
-              hoverClass: 'drophover', 
-              drop:function(event2, ui2) {                                         
-                insertInBlock($(this),event2, ui2);
-              }
-            });              
-            
-        }
-      });
+                insertInBlock($(this), event, ui);
+            }
+        });
     };
-
     
-    function insertInBlock(container, event, ui) {
-      container.droppable("disable");
-      $dragged_block = null;
-      if (ui.helper.hasClass('dragged_from_toolbar')) $dragged_block = ui.draggable.clone();
-      else  $dragged_block = ui.draggable;
-      container.find('.contained');
-      $dragged_block.appendTo(container).draggable({
-        helper: 'clone',
-        connectToSortable: true,
-        drag: function (event2, ui2) {
-                $(this).parents('.contained').first().droppable('enable');
+    function insertInBlock($container, event, ui) {
+        $dragged_block = null;
+        // si el drag viene de tools, debemos clonar el bloque
+        if (ui.helper.hasClass('dragged_from_toolbar')) { 
+            $dragged_block = ui.draggable.clone();
         }
-      })
-      .find(".contained").droppable({
-        greedy: true,
-        tolerance: 'touch',
-        hoverClass: 'drophover', 
-        drop: function (event2, ui2) {
-            insertInBlock($(this),event2, ui2);
+        else {
+            $dragged_block = ui.draggable;
         }
-      });
-      
+        $dragged_block
+            .appendTo($container)        // pega el bloque en el slot
+            .draggable({                // permite poder volver a sacar el bloque del slot
+                helper: 'clone',
+                connectToSortable: true,
+                drag: function (event2, ui2) {
+                        $(this).parents('.contained').first().droppable('enable');
+                }
+            })
+            .find(".contained").droppable({  // permite poder dejar otros bloques en los slots de este bloque
+                greedy: true,
+                tolerance: 'touch',
+                hoverClass: 'drophover', 
+                drop: function (event2, ui2) {
+                    $(this).droppable("disable");
+                    insertInBlock($(this),event2, ui2);
+                }
+            });
     }
     /* routines grabbed from blocks.js */
 
