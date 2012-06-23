@@ -298,8 +298,8 @@ $.fn.extend({
         },
         template:
 '<div class="subcolumns">' +
-'           <div class="tools" style="height: 400px; overflow: visible">' +
-'             <div class="accordion" style="overflow: visible"></div>' +
+'           <div class="tools" style="height: 400px">' +
+'             <div class="accordion"></div>' +
 '           </div>' +
 '           <div class="workspace" style="height: 400px">' +
 '           </div>' +
@@ -312,7 +312,7 @@ $.fn.extend({
             var $section = $('<div style="overflow: visible"></div>', {
             });
             $.each(tool.items, function (index, item) {
-                var $option = $('<div style="overflow: visible"></div>');
+                var $option = $('<div></div>');
                 $option.append(block(item));
                 $section.append($option);
             });
