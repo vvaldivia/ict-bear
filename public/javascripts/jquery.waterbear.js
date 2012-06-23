@@ -350,10 +350,18 @@ $.fn.extend({
                 helper: 'clone',
                 connectToSortable: true,
                 drag: function (event2, ui2) {
-                        $(this).parents('.contained').first().droppable('enable').removeClass("slot_disabled");
+                    $(this).parents('.contained').first().droppable('enable').removeClass("slot_disabled");
                 }
             })
             .find(".contained").droppable({  // permite poder dejar otros bloques en los slots de este bloque
+                over: function (event2, ui2) {         
+                    position = $(this).offset();
+                    dy = ui.position.top-position.top;
+                    dx = ui.position.left-position.left;
+                    
+                    distancia = Math.sqrt(dx*dx + dy*dy);     
+                    console.log("dist %d", distancia);
+                },
                 greedy: true,
                 tolerance: 'touch',
                 hoverClass: 'drophover', 

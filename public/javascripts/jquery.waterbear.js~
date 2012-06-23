@@ -299,7 +299,7 @@ $.fn.extend({
         template:
 '<div class="subcolumns">' +
 '           <div class="tools" style="height: 400px">' +
-'             <div class="accordion" style=""></div>' +
+'             <div class="accordion"></div>' +
 '           </div>' +
 '           <div class="workspace" style="height: 400px">' +
 '           </div>' +
@@ -312,7 +312,7 @@ $.fn.extend({
             var $section = $('<div style="overflow: visible"></div>', {
             });
             $.each(tool.items, function (index, item) {
-                var $option = $('<div style=""></div>');
+                var $option = $('<div></div>');
                 $option.append(block(item));
                 $section.append($option);
             });
@@ -350,10 +350,18 @@ $.fn.extend({
                 helper: 'clone',
                 connectToSortable: true,
                 drag: function (event2, ui2) {
-                        $(this).parents('.contained').first().droppable('enable').removeClass("slot_disabled");
+                    $(this).parents('.contained').first().droppable('enable').removeClass("slot_disabled");
                 }
             })
             .find(".contained").droppable({  // permite poder dejar otros bloques en los slots de este bloque
+                over: function (event2, ui2) {         
+                    position = $(this).offset();
+                    dy = ui.position.top-position.top;
+                    dx = ui.position.left-position.left;
+                    
+                    distancia = (dx*dx + dy*dy);     
+                    console.log("dist %d", distancia);
+                },
                 greedy: true,
                 tolerance: 'touch',
                 hoverClass: 'drophover', 
