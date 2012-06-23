@@ -347,7 +347,7 @@ $.fn.extend({
         else {
             $draggedBlock = ui.draggable;
         }
-        $draggedBlock.find('.next').css('min-height','10px');
+        //$draggedBlock.find('.next').css('min-height','10px');
         $draggedBlock
             .appendTo($container)        // pega el bloque en el slot
             .draggable({                // permite poder volver a sacar el bloque del slot
@@ -357,10 +357,11 @@ $.fn.extend({
                 helper: 'clone',
                 connectToSortable: true,
                 start: function (event2, ui2) {
-                    $(this).parents('.contained,.next').first().droppable('enable').removeClass('slot_disabled');
+                  //  $(this).parents('.contained,.next').first().droppable('enable').removeClass('slot_disabled');
+                   $(this).parents('.contained').first().droppable('enable').removeClass('slot_disabled');
                 }
             })
-            .find('.contained,.next').droppable({  // permite poder dejar otros bloques en los slots de este bloque
+            .find('.contained').droppable({  // permite poder dejar otros bloques en los slots de este bloque
                 over: function (event2, ui2) {             
                     $(this).addClass('encima');             
                 },
