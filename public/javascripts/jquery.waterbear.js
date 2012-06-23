@@ -357,10 +357,10 @@ $.fn.extend({
                 helper: 'clone',
                 connectToSortable: true,
                 start: function (event2, ui2) {
-                    $(this).parents('.contained').first().droppable('enable').removeClass('slot_disabled');
+                    $(this).parents('.contained,.next').first().droppable('enable').removeClass('slot_disabled');
                 }
             })
-            .find('.contained').droppable({  // permite poder dejar otros bloques en los slots de este bloque
+            .find('.contained,.next').droppable({  // permite poder dejar otros bloques en los slots de este bloque
                 over: function (event2, ui2) {             
                     $(this).addClass('encima');             
                 },
@@ -369,8 +369,7 @@ $.fn.extend({
                 },
                 greedy: true,
                 tolerance: 'touch',
-                drop: function (event2, ui2) {
-                  
+                drop: function (event2, ui2) {           
                     if ($(this).hasClass('hotspot')) {
                         $(this).droppable('disable').removeClass('ui-state-disabled').addClass('slot_disabled').removeClass('hotspot');
                         insertInBlock($(this),event2, ui2); 
