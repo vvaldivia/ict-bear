@@ -320,6 +320,7 @@ $.fn.extend({
             $toolsDiv.append($section);
         });
         $toolsDiv.accordion();
+        
         $toolsDiv.find('span.wrapper').draggable({
             helper: 'clone',
             connectToSortable: true,
@@ -327,7 +328,7 @@ $.fn.extend({
                 ui.helper.addClass('dragged_from_toolbar');
             },
             drag: function (event, ui) {
-              $(".encima").removeClass("hotspot").first().addClass("hotspot");
+              $('.encima').removeClass('hotspot').first().addClass('hotspot'); //selecciona hotspot
             }
         });
         var $workspaceDiv = plugin_data.$target.find('div.workspace');
@@ -347,7 +348,9 @@ $.fn.extend({
         else {
             $draggedBlock = ui.draggable;
         }
-        $draggedBlock.find('.next').css('min-height','10px');
+        
+        $draggedBlock.find('.next').css('min-height','10px'); //cambiar en css, revisar generacion del dom
+        
         $draggedBlock
             .appendTo($container)        // pega el bloque en el slot
             .draggable({                // permite poder volver a sacar el bloque del slot
@@ -357,13 +360,13 @@ $.fn.extend({
                 helper: 'clone',
                 connectToSortable: true,
                 start: function (event2, ui2) {
-                  //  $(this).parents('.contained,.next').first().droppable('enable').removeClass('slot_disabled');
-                   $(this).parents('.contained').first().droppable('enable').removeClass('slot_disabled');
+                    // todo, estudiar y  cambiar esta logica!
+                   $(this).closest('.contained,.next').droppable('enable').removeClass('slot_disabled');
                 }
             })
-            .find('.contained').droppable({  // permite poder dejar otros bloques en los slots de este bloque
+            .find('.contained,.next').droppable({  // permite poder dejar otros bloques en los slots de este bloque
                 over: function (event2, ui2) {             
-                    $(this).addClass('encima');             
+                    $(this).not('.slot_disabled').addClass('encima');             
                 },
                 out: function (event2, ui2) {
                     $(this).removeClass('encima').removeClass('hotspot');
