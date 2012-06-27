@@ -355,11 +355,13 @@ $.fn.extend({
             .appendTo($container)        // pega el bloque en el slot
             .draggable({                // permite poder volver a sacar el bloque del slot
                 drag: function (event2, ui2) {
+                    
                     $('.encima').removeClass('hotspot').first().addClass('hotspot');
                 },
                 helper: 'clone',
                 connectToSortable: true,
                 start: function (event2, ui2) {
+                   //$(this).find('.contained,.next').droppable('destroy').addClass('slot_disabled');
                    $(this).closest('.contained,.next').droppable('enable').removeClass('slot_disabled');
                 }
             })
@@ -372,7 +374,8 @@ $.fn.extend({
                 },
                 greedy: true,
                 tolerance: 'touch',
-                drop: function (event2, ui2) {           
+                drop: function (event2, ui2) {         
+                    console.log('llamada a drop');
                     if ($(this).hasClass('hotspot')) {
                         $(this).droppable('disable').removeClass('ui-state-disabled').addClass('slot_disabled').removeClass('hotspot');
                         insertInBlock($(this),event2, ui2); 
