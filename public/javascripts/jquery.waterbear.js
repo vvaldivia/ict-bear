@@ -344,16 +344,8 @@ $.fn.extend({
         // si el drag viene de tools, debemos clonar el bloque
         if (ui.helper.hasClass('dragged_from_toolbar')) { 
             $draggedBlock = ui.draggable.clone();
-        }
-        else {
-            $draggedBlock = ui.draggable;
-        }
-        
-        $draggedBlock.find('.next').css('min-height','10px'); //cambiar en css, revisar generacion del dom
-        
-        $draggedBlock
-            .appendTo($container)        // pega el bloque en el slot
-            .draggable({                // permite poder volver a sacar el bloque del slot
+            // creamos aqui el droppable
+            $draggedBlock.draggable({                // permite poder volver a sacar el bloque del slot
                 drag: function (event2, ui2) {
                     
                     $('.encima').removeClass('hotspot').first().addClass('hotspot');
@@ -361,11 +353,12 @@ $.fn.extend({
                 helper: 'clone',
                 connectToSortable: true,
                 start: function (event2, ui2) {
-                   //$(this).find('.contained,.next').droppable('destroy').addClass('slot_disabled');
-                   $(this).closest('.contained,.next').droppable('enable').removeClass('slot_disabled');
+                   $(this).closest('.contained,.next').droppable('enable').removeClass('slot_disabled'); // recuperamos el slot
+                   $(this).find('.contained,.next').droppable('disable').removeClass('ui-state-disabled').addClass('slot_disabled');
                 }
             })
             .find('.contained,.next').droppable({  // permite poder dejar otros bloques en los slots de este bloque
+                // todo, fix para que no provoque droppables en objetos anidados
                 over: function (event2, ui2) {             
                     $(this).not('.slot_disabled').addClass('encima'); // estudiar, por que fue necesario hacer este not()?    
                 },
@@ -375,14 +368,24 @@ $.fn.extend({
                 greedy: true,
                 tolerance: 'touch',
                 drop: function (event2, ui2) {         
-                    console.log('llamada a drop');
                     if ($(this).hasClass('hotspot')) {
+                        console.log('llamada a drop');
                         $(this).droppable('disable').removeClass('ui-state-disabled').addClass('slot_disabled').removeClass('hotspot');
                         insertInBlock($(this),event2, ui2); 
                     }                 
                     $(this).removeClass('encima').removeClass('hotspot');
                 }
             });
+            $draggedBlock.find('.next').css('min-height','10px'); //cambiar en css, revisar generacion del dom
+        }
+        else {
+            $draggedBlock = ui.draggable;
+            // el dropable ya esta creado, reactivamos
+            $draggedBlock.find('.contained,.next').droppable('enable').removeClass('slot_disabled');
+            
+        }
+        $draggedBlock.appendTo($container);        // pega el bloque en el slot
+            
     }
     
     function  masCercano($bloque, $slots) {
