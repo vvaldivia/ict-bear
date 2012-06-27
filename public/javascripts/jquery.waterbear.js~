@@ -297,11 +297,11 @@ $.fn.extend({
             }
         },
         template:
-'<div class="subcolumns">' +
-'           <div class="tools" style="height: 400px">' +
+'<div class="subcolumns" style="vertical-align:top">' +
+'           <div class="tools" style="height: 800px; width: 400px; display:inline-block">' +
 '             <div class="accordion"></div>' +
 '           </div>' +
-'           <div class="workspace" style="height: 400px">' +
+'           <div class="workspace" style="height: 1200px; width: 800px; display: inline-block;" >' +
 '           </div>' +
 '</div>'
     };
@@ -360,13 +360,12 @@ $.fn.extend({
                 helper: 'clone',
                 connectToSortable: true,
                 start: function (event2, ui2) {
-                    // todo, estudiar y  cambiar esta logica!
                    $(this).closest('.contained,.next').droppable('enable').removeClass('slot_disabled');
                 }
             })
             .find('.contained,.next').droppable({  // permite poder dejar otros bloques en los slots de este bloque
                 over: function (event2, ui2) {             
-                    $(this).not('.slot_disabled').addClass('encima');             
+                    $(this).not('.slot_disabled').addClass('encima'); // estudiar, por que fue necesario hacer este not()?    
                 },
                 out: function (event2, ui2) {
                     $(this).removeClass('encima').removeClass('hotspot');
