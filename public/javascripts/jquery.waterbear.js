@@ -341,63 +341,71 @@ $.fn.extend({
     
     function insertInBlock($container, event, ui) {
         $draggedBlock = null;
-        // si el drag viene de tools, debemos clonar el bloque
+        // si el drag viene de tools, debemos clonar el bloque y ademas agregar al bloque todos los eventos de drag and drop
         if (ui.helper.hasClass('dragged_from_toolbar')) { 
             $draggedBlock = ui.draggable.clone();
-            // creamos drag and drop para el bloque
-            $draggedBlock.draggable({                
-                drag: function (event2, ui2) {
-                    // mientras arrastamos aactivamos el hotspot mas cercano
-                    $('.encima').removeClass('hotspot').first().addClass('hotspot');
-                },
-                helper: 'clone',
-                connectToSortable: true,
-                start: function (event2, ui2) {
-                   // bloqueamos temporalmente todos los slots del bloque estamos arrastrando
-                   $(this).find('.contained,.next').droppable('disable').removeClass('ui-state-disabled').addClass('slot_disabled');
-                },
-                // al terminar el drag debemos reactivar los slots en el bloque que arrastramos
-                stop: function (event2, ui2) {
-                    $.each($(this).find('.contained,.next'), function (key, slot) {
-                        if ($(slot).find('.wrapper').length == 0) {
-                            console.log('bloque a reactivar');
-                            $(slot).droppable('enable').removeClass('slot_disabled');
-                        }
-                    });
-                }
-            })
-            // buscamos los slots en el bloque y creamos un droppable
-            .find('.contained,.next').droppable({  // permite poder dejar otros bloques en los slots de este bloque
-                // todo, fix para que no provoque droppables en objetos anidados
-                over: function (event2, ui2) {             
-                    $(this).not('.slot_disabled').addClass('encima'); 
-                },
-                out: function (event2, ui2) {
-                    $(this).removeClass('encima').removeClass('hotspot');
-                },
-                greedy: true,
-                tolerance: 'touch',
-                drop: function (event2, ui2) {         
-                    // si el slot esta marcado como hotspot, entonces realizamos el drop
-                    if ($(this).hasClass('hotspot')) {
-                        $(this).droppable('disable').removeClass('ui-state-disabled').addClass('slot_disabled').removeClass('hotspot');
-                        insertInBlock($(this),event2, ui2); 
-                    }                 
-                    $(this).removeClass('encima').removeClass('hotspot');
-                }
-            });
-          
-            $draggedBlock.find('.next').css('min-height','10px'); //cambiar en css, revisar generacion del dom
+            addDragToClone($draggedBlock);
+            addDropToSlots($draggedBlock);
+            $draggedBlock.find('.next').css('min-height','10px'); // cambiar esto en hoja de estilo
         }
-        
-        //
+        // si bloque no viene del toolbox,  simplemente lo pegamos
         else {
-            ui.draggable.parents('.contained,.next').first().droppable('enable').removeClass('slot_disabled'); // recuperamos el slot
+            ui.draggable.parents('.contained,.next').first().droppable('enable').removeClass('slot_disabled'); // recuperamos el slot desde donde fue arrastrado este bloque
             $draggedBlock = ui.draggable;
         }
         $draggedBlock.appendTo($container);        // pega el bloque en el slot
-            
     }
+    
+    // permite volver a sacar el bloque de un slot
+    function addDragToClone($block){
+        $block.draggable({                
+            drag: function (event2, ui2) {
+                // mientras arrastamos aactivamos el hotspot mas cercano
+                $('.encima').removeClass('hotspot').first().addClass('hotspot');
+            },
+            helper: 'clone',
+            connectToSortable: true,
+            start: function (event2, ui2) {
+                // bloqueamos temporalmente todos los slots del bloque estamos arrastrando
+                $(this).find('.contained,.next').droppable('disable').removeClass('ui-state-disabled').addClass('slot_disabled');
+            },
+            // al terminar el drag debemos reactivar los slots en el bloque que arrastramos
+            stop: function (event2, ui2) {
+                $.each($(this).find('.contained,.next'), function (key, slot) {
+                    if ($(slot).find('.wrapper').length == 0) {
+                        console.log('bloque a reactivar');
+                        $(slot).droppable('enable').removeClass('slot_disabled');
+                    }
+                });
+            }
+        });
+    }
+    
+    // permite insertar otros bloques dentro de este
+    function addDropToSlots($block) {
+        // buscamos los slots en el bloque y creamos un droppable
+        $block.find('.contained,.next').droppable({  // permite poder dejar otros bloques en los slots de este bloque
+            // todo, fix para que no provoque droppables en objetos anidados
+            over: function (event2, ui2) {             
+                $(this).not('.slot_disabled').addClass('encima'); 
+            },
+            out: function (event2, ui2) {
+                $(this).removeClass('encima').removeClass('hotspot');
+            },
+            greedy: true,
+            tolerance: 'touch',
+            drop: function (event2, ui2) {         
+                // si el slot esta marcado como hotspot, entonces realizamos el drop
+                if ($(this).hasClass('hotspot')) {
+                    $(this).droppable('disable').removeClass('ui-state-disabled').addClass('slot_disabled').removeClass('hotspot');
+                    insertInBlock($(this),event2, ui2); 
+                }                 
+                $(this).removeClass('encima').removeClass('hotspot');
+            }
+        });
+    }
+    
+    
     
     function  masCercano($bloque, $slots) {
        var $menor;
