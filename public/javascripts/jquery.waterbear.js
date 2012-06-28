@@ -344,20 +344,29 @@ $.fn.extend({
         // si el drag viene de tools, debemos clonar el bloque
         if (ui.helper.hasClass('dragged_from_toolbar')) { 
             $draggedBlock = ui.draggable.clone();
-            // creamos aqui el droppable
-            $draggedBlock.draggable({                // permite poder volver a sacar el bloque del slot
+            // creamos drag and drop para el bloque
+            $draggedBlock.draggable({                
                 drag: function (event2, ui2) {
+                    // mientras arrastamos aactivamos el hotspot mas cercano
                     $('.encima').removeClass('hotspot').first().addClass('hotspot');
                 },
                 helper: 'clone',
                 connectToSortable: true,
                 start: function (event2, ui2) {
-                    console.log("drag "+ $(this).parents('.contained,.next').first().length);
-                   $(this).parents('.contained,.next').first().droppable('enable').removeClass('slot_disabled'); // recuperamos el slot
-                   // bloqueamos todos los dropables del bloque estamos arrastrando
+                   // bloqueamos temporalmente todos los slots del bloque estamos arrastrando
                    $(this).find('.contained,.next').droppable('disable').removeClass('ui-state-disabled').addClass('slot_disabled');
+                },
+                // al terminar el drag debemos reactivar los slots en el bloque que arrastramos
+                stop: function (event2, ui2) {
+                    $.each($(this).find('.contained,.next'), function (key, slot) {
+                        if ($(slot).find('.wrapper').length == 0) {
+                            console.log('bloque a reactivar');
+                            $(slot).droppable('enable').removeClass('slot_disabled');
+                        }
+                    });
                 }
             })
+            // buscamos los slots en el bloque y creamos un droppable
             .find('.contained,.next').droppable({  // permite poder dejar otros bloques en los slots de este bloque
                 // todo, fix para que no provoque droppables en objetos anidados
                 over: function (event2, ui2) {             
@@ -369,6 +378,7 @@ $.fn.extend({
                 greedy: true,
                 tolerance: 'touch',
                 drop: function (event2, ui2) {         
+                    // si el slot esta marcado como hotspot, entonces realizamos el drop
                     if ($(this).hasClass('hotspot')) {
                         $(this).droppable('disable').removeClass('ui-state-disabled').addClass('slot_disabled').removeClass('hotspot');
                         insertInBlock($(this),event2, ui2); 
@@ -376,13 +386,14 @@ $.fn.extend({
                     $(this).removeClass('encima').removeClass('hotspot');
                 }
             });
+          
             $draggedBlock.find('.next').css('min-height','10px'); //cambiar en css, revisar generacion del dom
         }
+        
+        //
         else {
+            ui.draggable.parents('.contained,.next').first().droppable('enable').removeClass('slot_disabled'); // recuperamos el slot
             $draggedBlock = ui.draggable;
-            // el dropable ya esta creado, reactivamos
-            $draggedBlock.find('.contained,.next:empty').droppable('enable').removeClass('slot_disabled');
-            // esto esta mal, los slots nunca estan vacios
         }
         $draggedBlock.appendTo($container);        // pega el bloque en el slot
             
