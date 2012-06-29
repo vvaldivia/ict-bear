@@ -301,7 +301,7 @@ $.fn.extend({
 '           <div class="tools" style="height: 800px; width: 400px; display:inline-block; vertical-align:top">' +
 '             <div class="accordion"></div>' +
 '           </div>' +
-'           <div class="workspace" style="height: 1200px; width: 800px; display: inline-block; vertical-align:top" >' +
+'           <div class="workspace" style="height: 1200px; width: 800px; display: inline-block; vertical-align:top; border: 1px solid;" >' +
 '           </div>' +
 '</div>'
     };
