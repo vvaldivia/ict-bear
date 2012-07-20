@@ -208,7 +208,7 @@ $.fn.extend({
                 title: 'General',
                 items: [
                     {
-                        label: 'when program runs',
+                        label: 'Celda [string] = ',
                         trigger: true,
                         slot: false,
                         containers: 1,
@@ -236,20 +236,49 @@ $.fn.extend({
                         script: 'setTimeout(function(){[[1]]},1000*{{1}});',
                         help: 'pause before running the following blocks'
                     },
+
                     {
                         label: 'square root of [number:10]', 
                         'type': 'number', 
                         script: 'Math.sqrt({{1}})',
                         help: 'the square root is the same as taking the to the power of 1/2'
                     },
- 
+
                     {
-                        label: 'if [boolean]', 
+                        label: 'Celda  [string]', 
+                        'type': 'number', 
+                        script: 'Math.sqrt({{1}})',
+                        help: 'valor de la celda'
+                    },
+
+                    {
+                        label: 'if [string]', 
                         containers: 2,
                         subContainerLabels: ['else'],
                         script: 'if({{1}}){[[1]]}else{[[2]]}',
                         help: 'run the first set of blocks if the condition is true, otherwise run the second set'
-                    }
+                    },
+                    {
+                        label: '[1] and [2]', 
+                        'type': 'boolean', 
+                        script: "({{1}} && {{2}})",
+                        help: 'Check if both are true'
+                    },   
+                    {
+                        label: 'BuscaMatriz [string] <br> ▼X', 
+                        containers: 2,
+                        subContainerLabels: ['Y'],
+                        script: 'if({{1}}){[[1]]}else{[[2]]}',
+                        help: 'run the first set of blocks if the condition is true, otherwise run the second set'
+                    },
+                    {
+                        label: 'Celda [string] = [number:10]', 
+                        'type': 'number', 
+                        script: 'Math.sqrt({{1}})',
+                        help: 'valor de la celda',
+
+                    },
+
  
 		  
                 ]
@@ -346,7 +375,7 @@ $.fn.extend({
             $draggedBlock = ui.draggable.clone();
             addDragToClone($draggedBlock);
             addDropToSlots($draggedBlock);
-            $draggedBlock.find('.next').css('min-height','10px'); // cambiar esto en hoja de estilo
+            $draggedBlock.find('.next').css('min-height','4px'); // cambiar esto en hoja de estilo
         }
         // si bloque no viene del toolbox,  simplemente lo pegamos
         else {
@@ -456,7 +485,8 @@ $.fn.extend({
         opts.slot = false; // can't have both slot and trigger
     }
     if (opts['type']){
-        opts.slot = false; // values nest, but do not follow
+        //opts.slot = false; // values nest, but do not follow
+        //
         opts.flap = false;
     }
     // console.log('wrapping "%s" with label, non-id path', opts.label);
@@ -672,14 +702,14 @@ $.fn.extend({
         // etc…
 
         // FIXME: Move specific type handling to raphael_demo.js
-       //  value = value.replace(/\[boolean:(true|false)\]/gm, '<span class="value boolean socket" data-type="boolean"><select><option>true</option><option selected>false</option></select></span>');
-      //  value = value.replace(/\[boolean\]/gm, '<span class="value boolean socket" data-type="boolean"><select><option>true</option><option>false</option></select></span>');
-       // value = value.replace(/(?:\[choice\:)(\w+)(?:\:)(\w+)(?:\])/gm, choice_func);
-      //  value = value.replace(/(?:\[choice\:)(\w+)(?:\])/gm, choice_func);
-        // match selector [^\[\]] should match any character except '[', ']', and ':'
+          value = value.replace(/\[boolean:(true|false)\]/gm, '<span class="value boolean socket" data-type="boolean"><select><option>true</option><option selected>false</option></select></span>');
+          value = value.replace(/\[boolean\]/gm, '<span class="value boolean socket" data-type="boolean"><select><option>true</option><option>false</option></select></span>');
+          //value = value.replace(/(?:\[choice\:)(\w+)(?:\:)(\w+)(?:\])/gm, choice_func);
+          //value = value.replace(/(?:\[choice\:)(\w+)(?:\])/gm, choice_func);
+          //match selector [^\[\]] should match any character except '[', ']', and ':'
           value = value.replace(/\[([^\[\]\:]+):([^\[\]]+)\]/gm, '<span class="value $1 socket" data-type="$1"><input type="$1" value="$2"></span>'); // contador
-      //  value = value.replace(/\[([^\[\]:]+)\]/gm, '<span class="value $1 socket" data-type="$1"><input type="$1"></span>');
-      //  value = value.replace(/##/gm, '');
+          value = value.replace(/\[([^\[\]:]+)\]/gm, '<span class="value $1 socket" data-type="$1"><input type="$1"></span>');
+          value = value.replace(/##/gm, '');
         return value;
     };
 
