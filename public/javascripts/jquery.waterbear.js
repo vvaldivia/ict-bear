@@ -402,7 +402,7 @@ $.fn.extend({
         }
         // si bloque no viene del toolbox,  simplemente lo pegamos
         else {
-            ui.draggable.parents('.contained,.next').first().droppable('enable').removeClass('slot_disabled'); // recuperamos el slot desde donde fue arrastrado este bloque
+            ui.draggable.closest('.contained,.next').removeClass('slot_disabled'); // recuperamos el slot desde donde fue arrastrado este bloque
             $draggedBlock = ui.draggable;
         }
         $draggedBlock.appendTo($container);        // pega el bloque en el slot
@@ -419,14 +419,14 @@ $.fn.extend({
             connectToSortable: true,
             start: function (event2, ui2) {
                 // bloqueamos temporalmente todos los slots del bloque estamos arrastrando
-                $(this).find('.contained,.next').droppable('disable').removeClass('ui-state-disabled').addClass('slot_disabled');
+                $(this).find('.contained,.next').removeClass('ui-state-disabled').addClass('slot_disabled');
             },
             // al terminar el drag debemos reactivar los slots en el bloque que arrastramos
             stop: function (event2, ui2) {
                 $.each($(this).find('.contained,.next'), function (key, slot) {
                     if ($(slot).find('.wrapper').length == 0) {
                         console.log('bloque a reactivar');
-                        $(slot).droppable('enable').removeClass('slot_disabled');
+                        $(slot).removeClass('slot_disabled');
                     }
                 });
             }
@@ -435,7 +435,6 @@ $.fn.extend({
     
     // permite insertar otros bloques dentro de este
     addDropToSlots = function($block) {
-        // buscamos los slots en el bloque y creamos un droppable
         $block.find('.contained,.next').droppable({  // permite poder dejar otros bloques en los slots de este bloque
             // todo, fix para que no provoque droppables en objetos anidados
             over: function (event2, ui2) {             
@@ -449,7 +448,7 @@ $.fn.extend({
             drop: function (event2, ui2) {         
                 // si el slot esta marcado como hotspot, entonces realizamos el drop
                 if ($(this).hasClass('hotspot')) {
-                    $(this).droppable('disable').removeClass('ui-state-disabled').addClass('slot_disabled').removeClass('hotspot');
+                    $(this).removeClass('ui-state-disabled').addClass('slot_disabled').removeClass('hotspot');
                     insertInBlock($(this),event2, ui2); 
                     $(this).find("input.block_input").each(function(){
                         $(this).on('keyup keydown blur update', autogrow);
@@ -462,11 +461,11 @@ $.fn.extend({
     
     // permite que el input cambie de tamaño dependiendo del tamaño del texto
     autogrow = function() {
-                original_width = $(this).width();
-                text = $(this).val();
-                width = text.length*7+10; // temporal, esto funciona solamente cuando el tamaño de la fuente no cambia
-                if ( width < original_width) width = original_width;
-                $(this).css({ 'width': width, 'font-family': 'Monospace'});
+        original_width = $(this).width();
+        text = $(this).val();
+        width = text.length*7+10; // temporal, esto funciona solamente cuando el tamaño de la fuente no cambia
+        if ( width < original_width) width = original_width;
+        $(this).css({ 'width': width, 'font-family': 'Monospace'});
                 
     };
     
