@@ -345,6 +345,7 @@ $.fn.extend({
         });
         $toolsDiv.accordion();
         
+        // drag and drop para los bloques
         $toolsDiv.find('span.wrapper').draggable({
             helper: 'clone',
             connectToSortable: true,
@@ -359,11 +360,16 @@ $.fn.extend({
         $workspaceDiv.sortable().droppable({
             drop: function(event,ui) {
                 insertInBlock($(this), event, ui);
+                $(this).find("input.block_input").each(function(){
+                    $(this).on('keyup keydown blur update', autogrow);
+                });
             }
         });
+
+
     };
     
-    function insertInBlock($container, event, ui) {
+    insertInBlock = function($container, event, ui) {
         $draggedBlock = null;
         // si el drag viene de tools, debemos clonar el bloque y ademas agregar al bloque todos los eventos de drag and drop
         if (ui.helper.hasClass('dragged_from_toolbar')) { 
@@ -381,7 +387,7 @@ $.fn.extend({
     }
     
     // permite volver a sacar el bloque de un slot
-    function addDragToClone($block){
+    addDragToClone = function($block){
         $block.draggable({                
             drag: function (event2, ui2) {
                 // mientras arrastamos aactivamos el hotspot mas cercano
@@ -406,7 +412,7 @@ $.fn.extend({
     }
     
     // permite insertar otros bloques dentro de este
-    function addDropToSlots($block) {
+    addDropToSlots = function($block) {
         // buscamos los slots en el bloque y creamos un droppable
         $block.find('.contained,.next').droppable({  // permite poder dejar otros bloques en los slots de este bloque
             // todo, fix para que no provoque droppables en objetos anidados
@@ -423,13 +429,24 @@ $.fn.extend({
                 if ($(this).hasClass('hotspot')) {
                     $(this).droppable('disable').removeClass('ui-state-disabled').addClass('slot_disabled').removeClass('hotspot');
                     insertInBlock($(this),event2, ui2); 
+                    $(this).find("input.block_input").each(function(){
+                        $(this).on('keyup keydown blur update', autogrow);
+                    });
                 }                 
                 $(this).removeClass('encima').removeClass('hotspot');
             }
         });
     }
     
-    
+    // permite que el input cambie de tamaño dependiendo del tamaño del texto
+    autogrow = function() {
+                original_width = $(this).width();
+                text = $(this).val();
+                width = text.length*7+10; // temporal, esto funciona solamente cuando el tamaño de la fuente no cambia
+                if ( width < original_width) width = original_width;
+                $(this).css({ 'width': width, 'font-family': 'Monospace'});
+                
+    };
     
     function  masCercano($bloque, $slots) {
        var $menor;
@@ -702,8 +719,8 @@ $.fn.extend({
           //value = value.replace(/(?:\[choice\:)(\w+)(?:\:)(\w+)(?:\])/gm, choice_func);
           //value = value.replace(/(?:\[choice\:)(\w+)(?:\])/gm, choice_func);
           //match selector [^\[\]] should match any character except '[', ']', and ':'
-          value = value.replace(/\[([^\[\]\:]+):([^\[\]]+)\]/gm, '<span class="value $1 socket" data-type="$1"><input type="$1" value="$2"></span>'); // contador
-          value = value.replace(/\[([^\[\]:]+)\]/gm, '<span class="value $1 socket" data-type="$1"><input type="$1"></span>');
+          value = value.replace(/\[([^\[\]\:]+):([^\[\]]+)\]/gm, '<span class="value $1 socket" data-type="$1"><input type="$1" value="$2" class="block_input"></span>'); // contador
+          value = value.replace(/\[([^\[\]:]+)\]/gm, '<span class="value $1 socket" data-type="$1"><input type="$1" class="block_input"></span>');
           value = value.replace(/##/gm, '');
         return value;
     };
