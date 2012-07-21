@@ -229,19 +229,8 @@ $.fn.extend({
                         script: 'if({{1}}){[[1]]}else{[[2]]}',
                         help: 'run the first set of blocks if the condition is true, otherwise run the second set'
                     },
-                    {
-                        label: '[1] and [2]', 
-                        'type': 'boolean', 
-                        script: "({{1}} && {{2}})",
-                        help: 'Check if both are true'
-                    },   
-                    {
-                        label: 'BuscaMatriz [string] <br> ▼X', 
-                        containers: 2,
-                        subContainerLabels: ['Y'],
-                        script: 'if({{1}}){[[1]]}else{[[2]]}',
-                        help: 'run the first set of blocks if the condition is true, otherwise run the second set'
-                    },
+ 
+                 
                     {
                         label: 'Buscar en Matriz [string] <br> X [string] <br> Y [string] ', 
                         script: 'if({{1}}){[[1]]}else{[[2]]}',
@@ -261,6 +250,19 @@ $.fn.extend({
                         script: '',
                         help: 'valor de la celda',
                     },
+            
+                ]
+            },
+            {
+                title: 'Versiones alternativas',
+                items: [
+                   {
+                        label: 'BuscaMatriz [string] <br> ▼X', 
+                        containers: 2,
+                        subContainerLabels: ['Y'],
+                        script: 'if({{1}}){[[1]]}else{[[2]]}',
+                        help: 'run the first set of blocks if the condition is true, otherwise run the second set'
+                    },
                     {
                         label: 'Variable [string] = [string]', 
                         'type': 'number', 
@@ -272,11 +274,31 @@ $.fn.extend({
                         'type': 'number', 
                         script: '',
                         help: 'valor de la celda',  
-                    }
+                    },
+                    {
+                        label: '<select> ' + 
+                                    '<option>Formula1 </option> ' +
+                                    '<option>Formula2</option> ' + 
+                                '</select> = [string]', 
+                        'type': 'number', 
+                        script: '',
+                        help: 'valor de la celda',  
+                    },
 
- 
-		  
+                    {
+                        label: 'Celda [string] = ',
+                        containers: 1,
+                        script: '',
+                        help: 'this trigger will run its scripts once when the program starts'
+                    },
+                    {
+                        label: '[1] and [2]', 
+                        'type': 'boolean', 
+                        script: "({{1}} && {{2}})",
+                        help: 'Check if both are true'
+                    }, 
                 ]
+
             }
         ],
         get: {
