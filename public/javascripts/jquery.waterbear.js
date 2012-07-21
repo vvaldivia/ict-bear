@@ -199,7 +199,7 @@ $.fn.extend({
     };
 
     //
-    // plugin defaults
+    // bloques
     //
     $.fn.waterbear.defaults = {
         visible: true,
@@ -215,35 +215,6 @@ $.fn.extend({
                         script: 'function _start(){[[1]]}_start();',
                         help: 'this trigger will run its scripts once when the program starts'
                     },
-                    {
-                        label: 'repeat [number:30] times a second',
-                        trigger: true,
-                        slot: false,
-                        containers: 1,
-                        locals: [
-                            {
-                                label: 'count',
-                                script: 'local.count',
-                                type: 'number'
-                            }
-                        ],
-                        script: '(function(){var count = 0; setInterval(function(){count++; local.count = count;[[1]]},1000/{{1}})})();',
-                        help: 'this trigger will run the attached blocks periodically'
-                    },
-                    {
-                        label: 'wait [number:1] secs',
-                        containers: 1,
-                        script: 'setTimeout(function(){[[1]]},1000*{{1}});',
-                        help: 'pause before running the following blocks'
-                    },
-
-                    {
-                        label: 'square root of [number:10]', 
-                        'type': 'number', 
-                        script: 'Math.sqrt({{1}})',
-                        help: 'the square root is the same as taking the to the power of 1/2'
-                    },
-
                     {
                         label: 'Celda  [string]', 
                         'type': 'number', 
@@ -272,12 +243,36 @@ $.fn.extend({
                         help: 'run the first set of blocks if the condition is true, otherwise run the second set'
                     },
                     {
+                        label: 'Buscar en Matriz [string] <br> X [string] <br> Y [string] ', 
+                        script: 'if({{1}}){[[1]]}else{[[2]]}',
+                        help: 'run the first set of blocks if the condition is true, otherwise run the second set'
+                    },
+                    {
                         label: 'Celda [string] = [number:10]', 
                         'type': 'number', 
                         script: 'Math.sqrt({{1}})',
                         help: 'valor de la celda',
 
                     },
+                    {
+                        label: 'Variable [string] = ', 
+                        'type': 'number', 
+                        containers: 1,
+                        script: '',
+                        help: 'valor de la celda',
+                    },
+                    {
+                        label: 'Variable [string] = [string]', 
+                        'type': 'number', 
+                        script: '',
+                        help: 'valor de la celda',
+                    },
+                    {
+                      label: 'Constante = [string]', 
+                        'type': 'number', 
+                        script: '',
+                        help: 'valor de la celda',  
+                    }
 
  
 		  
