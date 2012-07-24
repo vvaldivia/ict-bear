@@ -344,10 +344,10 @@ $.fn.extend({
         },
         template:
 '<div class="subcolumns" style="">' +
-'           <div class="tools" style="height: 800px; width: 400px; display:inline-block; vertical-align:top">' +
-'             <div class="accordion"></div>' +
+'           <div class="tools" style="height: 700px; width: 300px; display:inline-block; vertical-align:top">' +
+'             <div class="accordion" style= ""></div>' +
 '           </div>' +
-'           <div class="workspace" style="height: 1200px; width: 800px; display: inline-block; vertical-align:top; border: 1px solid;" >' +
+'           <div class="workspace" style="height: 700px; width: 600px; display: inline-block; vertical-align:top; border: 1px solid;" >' +
 '           </div>' +
 '</div>'
     };
@@ -355,7 +355,7 @@ $.fn.extend({
     createLayout = function (plugin_data) {
         var $toolsDiv = plugin_data.$target.find('div.accordion');
         $.each(plugin_data.options.tools, function (toolindex, tool) {
-            var $section = $('<div style="overflow: visible"></div>', {
+            var $section = $('<div style="overflow: visible; "></div>', {
             });
             $.each(tool.items, function (index, item) {
                 var $option = $('<div></div>');
@@ -405,6 +405,7 @@ $.fn.extend({
             ui.draggable.closest('.contained,.next').removeClass('slot_disabled'); // recuperamos el slot desde donde fue arrastrado este bloque
             $draggedBlock = ui.draggable;
         }
+        $draggedBlock.css('margin', '0px');
         $draggedBlock.appendTo($container);        // pega el bloque en el slot
     }
     
