@@ -205,9 +205,36 @@ $.fn.extend({
         visible: true,
         tools: [
             {
-                title: 'General',
+                title: 'Control',
                 items: [
                     {
+                        label: 'if [string]', 
+                        containers: 1,
+                        script: 'if({{1}}){[[1]]}else{[[2]]}',
+                        help: 'run the first set of blocks if the condition is true, otherwise run the second set'
+                    },
+                    {
+                        label: 'if [string]', 
+                        containers: 2,
+                        subContainerLabels: ['else'],
+                        script: 'if({{1}}){[[1]]}else{[[2]]}',
+                        help: 'run the first set of blocks if the condition is true, otherwise run the second set'
+                    },
+                    {
+                                        
+                        label: 'while [string]', 
+                        containers: 1,
+                        script: 'if({{1}}){[[1]]}else{[[2]]}',
+                        help: 'run the first set of blocks if the condition is true, otherwise run the second set'
+                    }
+                ]
+                
+            },
+            
+            {
+                title: 'Entrada/Salida',
+                items: [
+                     {
                         label: 'Celda [string] = ',
                         trigger: true,
                         slot: false,
@@ -221,16 +248,6 @@ $.fn.extend({
                         script: 'Math.sqrt({{1}})',
                         help: 'valor de la celda'
                     },
-
-                    {
-                        label: 'if [string]', 
-                        containers: 2,
-                        subContainerLabels: ['else'],
-                        script: 'if({{1}}){[[1]]}else{[[2]]}',
-                        help: 'run the first set of blocks if the condition is true, otherwise run the second set'
-                    },
- 
-                 
                     {
                         label: 'Buscar en Matriz [string] <br> X [string] <br> Y [string] ', 
                         script: 'if({{1}}){[[1]]}else{[[2]]}',
@@ -244,11 +261,68 @@ $.fn.extend({
 
                     },
                     {
+                        label: 'Celda [string] = ',
+                        containers: 1,
+                        script: '',
+                        help: 'this trigger will run its scripts once when the program starts'
+                    },
+
+
+                ]
+                
+            },
+
+
+           
+
+            {
+                title: 'Variables y Constantes',
+                items: [
+                    {
                         label: 'Variable [string] = ', 
                         'type': 'number', 
                         containers: 1,
                         script: '',
                         help: 'valor de la celda',
+                    },
+                    {
+                        label: 'Variable [string] = [string]', 
+                        'type': 'number', 
+                        script: '',
+                        help: 'valor de la celda',
+                    },
+                    {
+                      label: 'Constante = [string]', 
+                        'type': 'number', 
+                        script: '',
+                        help: 'valor de la celda',  
+                    },
+            
+                ]
+            },
+
+
+            {
+                title: 'Funciones',
+                items: [
+                    {
+                        label: '<select> ' + 
+                                    '<option>Formula1 </option> ' +
+                                    '<option>Formula2</option> ' + 
+                                '</select> = [string]', 
+                        'type': 'number', 
+                        script: '',
+                        help: 'valor de la celda',  
+                    },
+                    {
+                        label: '<select> ' + 
+                                    '<option>Formula1 </option> ' +
+                                    '<option>Formula2</option> ' + 
+                                '</select> = [string]', 
+                        'type': 'number', 
+                        script: '',
+                        containers: 1,
+                        help: 'valor de la celda',  
                     },
             
                 ]
@@ -263,34 +337,10 @@ $.fn.extend({
                         script: 'if({{1}}){[[1]]}else{[[2]]}',
                         help: 'run the first set of blocks if the condition is true, otherwise run the second set'
                     },
-                    {
-                        label: 'Variable [string] = [string]', 
-                        'type': 'number', 
-                        script: '',
-                        help: 'valor de la celda',
-                    },
-                    {
-                      label: 'Constante = [string]', 
-                        'type': 'number', 
-                        script: '',
-                        help: 'valor de la celda',  
-                    },
-                    {
-                        label: '<select> ' + 
-                                    '<option>Formula1 </option> ' +
-                                    '<option>Formula2</option> ' + 
-                                '</select> = [string]', 
-                        'type': 'number', 
-                        script: '',
-                        help: 'valor de la celda',  
-                    },
 
-                    {
-                        label: 'Celda [string] = ',
-                        containers: 1,
-                        script: '',
-                        help: 'this trigger will run its scripts once when the program starts'
-                    },
+
+
+
                     {
                         label: '[1] and [2]', 
                         'type': 'boolean', 
