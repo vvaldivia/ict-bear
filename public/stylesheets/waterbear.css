@@ -38,6 +38,6 @@ span.socket select,span.autosocket select{margin:0;}
 .wrapper{margin:5px;}
 .hotspot {background-color: yellow}
 
-
+.contained{margin-bottom:  6px;}
 /* .drophover { background-color: yellow;} */
 .drophover.slot_disabled { background-color: white;}

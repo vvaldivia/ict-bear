@@ -249,11 +249,6 @@ $.fn.extend({
                         help: 'valor de la celda'
                     },
                     {
-                        label: 'Buscar en Matriz [string] <br> X [string] <br> Y [string] ', 
-                        script: 'if({{1}}){[[1]]}else{[[2]]}',
-                        help: 'run the first set of blocks if the condition is true, otherwise run the second set'
-                    },
-                    {
                         label: 'Celda [string] = [number:10]', 
                         'type': 'number', 
                         script: 'Math.sqrt({{1}})',
@@ -271,10 +266,6 @@ $.fn.extend({
                 ]
                 
             },
-
-
-           
-
             {
                 title: 'Variables y Constantes',
                 items: [
@@ -300,7 +291,16 @@ $.fn.extend({
             
                 ]
             },
-
+            {
+                title: 'Parámetros',
+                items: [
+                    {
+                        label: 'Buscar en Matriz [string] <br> X [string] <br> Y [string] ', 
+                        script: 'if({{1}}){[[1]]}else{[[2]]}',
+                        help: 'run the first set of blocks if the condition is true, otherwise run the second set'
+                    },
+                ]
+            },
 
             {
                 title: 'Funciones',
@@ -316,40 +316,21 @@ $.fn.extend({
                     },
                     {
                         label: '<select> ' + 
-                                    '<option>Formula1 </option> ' +
-                                    '<option>Formula2</option> ' + 
-                                '</select> = [string]', 
+                                    '<option>Raiz </option> ' +
+                                    '<option>Seno</option> ' + 
+                                    '<option>Coseno</option> ' + 
+                                    '<option>Tangente</option> ' + 
+                                '</select>', 
                         'type': 'number', 
                         script: '',
                         containers: 1,
                         help: 'valor de la celda',  
                     },
+
             
                 ]
-            },
-            {
-                title: 'Versiones alternativas',
-                items: [
-                   {
-                        label: 'BuscaMatriz [string] <br> ▼X', 
-                        containers: 2,
-                        subContainerLabels: ['Y'],
-                        script: 'if({{1}}){[[1]]}else{[[2]]}',
-                        help: 'run the first set of blocks if the condition is true, otherwise run the second set'
-                    },
-
-
-
-
-                    {
-                        label: '[1] and [2]', 
-                        'type': 'boolean', 
-                        script: "({{1}} && {{2}})",
-                        help: 'Check if both are true'
-                    }, 
-                ]
-
             }
+
         ],
         get: {
             mensaje_cargando: 'cargando...',
