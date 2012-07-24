@@ -349,6 +349,7 @@ $.fn.extend({
 '           </div>' +
 '           <div class="workspace" style="height: 700px; width: 600px; display: inline-block; vertical-align:top; border: 1px solid;" >' +
 '           </div>' +
+'           <div class="trash" style="height: 700px; width: 200px; display: inline-block;"> </div>' +
 '</div>'
     };
 
@@ -362,7 +363,8 @@ $.fn.extend({
                 $option.append(block(item));
                 $section.append($option);
             });
-            $toolsDiv.append('<h3>' + tool.title + '</h3>');
+            //$toolsDiv.append('<h3>' + tool.title + '</h3>');
+            $toolsDiv.append('<div style="padding-left: 30px">' + tool.title + '</div>');
             $toolsDiv.append($section);
         });
         $toolsDiv.accordion();
@@ -387,6 +389,19 @@ $.fn.extend({
                 });
             }
         });
+
+        $('.trash').droppable({ 
+            drop: function(event,ui) {
+                if (!ui.helper.hasClass('dragged_from_toolbar')) { 
+                    // removemos el objeto
+                     ui.draggable.closest('.contained,.next').removeClass('slot_disabled'); // recuperamos el slot desde donde fue arrastrado este bloque
+                     ui.draggable.remove(); 
+                }
+            }
+        });
+
+
+
 
 
     };
@@ -464,7 +479,7 @@ $.fn.extend({
     autogrow = function() {
         original_width = $(this).width();
         text = $(this).val();
-        width = text.length*7+10; // temporal, esto funciona solamente cuando el tamaño de la fuente no cambia
+        width = text.length*7+20; // temporal, esto funciona solamente cuando el tamaño de la fuente no cambia
         if ( width < original_width) width = original_width;
         $(this).css({ 'width': width, 'font-family': 'Monospace'});
                 
