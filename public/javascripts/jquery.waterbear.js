@@ -389,7 +389,7 @@ $.fn.extend({
 '           </div>' +
 '           <div class="workspace" style="height: 700px; width: 600px; display: inline-block; vertical-align:top; border: 1px solid;" >' +
 '           </div>' +
-'           <div class="trash" style="height: 700px; width: 200px; display: inline-block;"> </div>' +
+//'           <div class="trash" style="height: 700px; width: 200px; display: inline-block;"> </div>' +
 '</div>'
     };
 

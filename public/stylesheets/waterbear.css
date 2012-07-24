@@ -41,3 +41,4 @@ span.socket select,span.autosocket select{margin:0;}
 .contained{margin-bottom:  6px; margin-top: 4px}
 /* .drophover { background-color: yellow;} */
 .drophover.slot_disabled { background-color: white;}
+.slot_disabled {padding-bottom: 0px}
