@@ -217,21 +217,21 @@ $.fn.extend({
                 title: 'Control',
                 items: [
                     {
-                        label: 'if [string]', 
+                        label: 'IF [string]', 
                         containers: 1,
                         script: 'if({{1}}){[[1]]}else{[[2]]}',
                         help: 'run the first set of blocks if the condition is true, otherwise run the second set'
                     },
                     {
-                        label: 'if [string]', 
+                        label: 'IF [string]', 
                         containers: 2,
-                        subContainerLabels: ['else'],
+                        subContainerLabels: ['ELSE'],
                         script: 'if({{1}}){[[1]]}else{[[2]]}',
                         help: 'run the first set of blocks if the condition is true, otherwise run the second set'
                     },
                     {
                                         
-                        label: 'while [string]', 
+                        label: 'WHILE [string]', 
                         containers: 1,
                         script: 'if({{1}}){[[1]]}else{[[2]]}',
                         help: 'run the first set of blocks if the condition is true, otherwise run the second set'
@@ -284,11 +284,11 @@ $.fn.extend({
                         help: 'valor de la celda',
                     },
                     {
-                      label: 'Constante = [string]', 
+                        label: 'Variable [string]', 
                         'type': 'number', 
                         script: '',
                         help: 'valor de la celda',  
-                    },
+                    }
             
                 ]
             },
@@ -296,7 +296,19 @@ $.fn.extend({
                 title: 'Parámetros',
                 items: [
                     {
-                        label: 'Buscar en Matriz [string] <br> X [string] <br> Y [string] ', 
+                        label: 'Buscar en Matriz [string] <div style="height: 2px"></div> X [string] <div style="height: 2px"></div> Y [string] <div style="height: 4px"></div>', 
+                        script: 'if({{1}}){[[1]]}else{[[2]]}',
+                        help: 'run the first set of blocks if the condition is true, otherwise run the second set'
+                    },
+                    {
+                        label: 'Clasificar ' +
+                                '<select> ' + 
+                                    '<option> tipo Producto </option> ' +
+                                    '<option> tipo Cliente</option> ' + 
+                                    '<option> tipo Banca</option> ' + 
+                                '</select>  '
+                                ,
+                        containers: 1,
                         script: 'if({{1}}){[[1]]}else{[[2]]}',
                         help: 'run the first set of blocks if the condition is true, otherwise run the second set'
                     },
