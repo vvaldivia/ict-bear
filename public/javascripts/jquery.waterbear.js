@@ -203,6 +203,15 @@ $.fn.extend({
     //
     $.fn.waterbear.defaults = {
         visible: true,
+        colors: [
+            'F8E7BA',
+            'DFD2F4',
+            'E59EEA',
+            'FFBEA8',
+            'E66A22',
+        ],
+
+        
         tools: [
             {
                 title: 'Control',
@@ -391,7 +400,8 @@ $.fn.extend({
             });
             $.each(tool.items, function (index, item) {
                 var $option = $('<div></div>');
-                $option.append(block(item));
+                
+                $option.append(block(item, plugin_data.options.colors[toolindex]));
                 $section.append($option);
             });
             //$toolsDiv.append('<h3>' + tool.title + '</h3>');
@@ -528,7 +538,8 @@ $.fn.extend({
     
     /* routines grabbed from blocks.js */
 
-    block = function (options, scope){
+    //block = function (options, scope){
+    block = function (options, color){
     // Options include:
     //
     // Menu blocks subset:
@@ -571,7 +582,7 @@ $.fn.extend({
     }
     // console.log('wrapping "%s" with label, non-id path', opts.label);
     // aqui se empieza a crear el dom del objeto
-    var wrapper = $('<span class="wrapper ' + opts.klass + '"><span class="block"><span class="blockhead"><span class="label">' + label(opts.label) + '</span></span></span></span>');
+    var wrapper = $('<span class="wrapper ' + opts.klass + '"><span class="block" style="background-color: #'+ color  + '"><span class="blockhead"><span class="label">' + label(opts.label) + '</span></span></span></span>');
     /*
     if (scope){
         wrapper.data('scope', scope);
