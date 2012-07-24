@@ -243,14 +243,6 @@ $.fn.extend({
             {
                 title: 'Entrada/Salida',
                 items: [
-                     {
-                        label: 'Celda [string] = ',
-                        trigger: true,
-                        slot: false,
-                        containers: 1,
-                        script: 'function _start(){[[1]]}_start();',
-                        help: 'this trigger will run its scripts once when the program starts'
-                    },
                     {
                         label: 'Celda  [string]', 
                         'type': 'number', 
@@ -384,9 +376,12 @@ $.fn.extend({
         },
         template:
 '<div class="subcolumns" style="">' +
-'           <div class="tools" style="height: 700px; width: 300px; display:inline-block; vertical-align:top">' +
-'             <div class="accordion" style= ""></div>' +
-'           </div>' +
+'           <div style="display: inline-block; width: 300px">' +
+'               <div class="tools" style="height: 400px; width: 300px; display:inline-block; vertical-align:top">' +
+'                 <div class="accordion" style= ""></div>' +
+'               </div>' +
+'               <div class="trash" style="height: 300px; width: 300px; display: inline-block;"> </div>' +
+'           </div> ' +
 '           <div class="workspace" style="height: 700px; width: 600px; display: inline-block; vertical-align:top; border: 1px solid;" >' +
 '           </div>' +
 //'           <div class="trash" style="height: 700px; width: 200px; display: inline-block;"> </div>' +
@@ -463,6 +458,12 @@ $.fn.extend({
         }
         $draggedBlock.css('margin', '0px');
         $draggedBlock.appendTo($container);        // pega el bloque en el slot
+
+        if ($container.hasClass("workspace")) {
+            $draggedBlock.css("margin-right", "20px");
+        }else {
+            $draggedBlock.css("margin-right", "0px");
+        }
     }
     
     // permite volver a sacar el bloque de un slot
@@ -578,7 +579,7 @@ $.fn.extend({
     if (opts['type']){
         //opts.slot = false; // values nest, but do not follow
         //
-        opts.flap = false;
+        //opts.flap = false;
     }
     // console.log('wrapping "%s" with label, non-id path', opts.label);
     // aqui se empieza a crear el dom del objeto
