@@ -342,7 +342,36 @@ $.fn.extend({
 
             
                 ]
+            },
+
+            {
+                title:  'Pipeline',
+                 items: [
+                    {
+                        label: 'Cargar Items [string] = ', 
+                        'type': 'number', 
+                        script: 'ans = cargarItems("[1]");',
+                        help: 'valor de la celda',
+                    },
+                    {
+                        label: 'Ensamblar [string] usando [string]', 
+                        'type': 'number', 
+                        script: 'ans = ensamblar(resultado, "[1]", "[2]");',
+                        help: 'valor de la celda'
+
+                    },
+
+                    {
+                        label: 'Guardar en cache [string]', 
+                        'type': 'number', 
+                        script: 'setCache("[1]");',
+                        help: 'valor de la celda'
+
+                    }
+            
+                ]
             }
+
 
         ],
         get: {
@@ -396,7 +425,7 @@ $.fn.extend({
 '           </div> ' +
 '           <div class="workspace" style="height: 700px; width: 600px; display: inline-block; vertical-align:top; border: 1px solid;" >' +
 '           </div>' +
-//'           <div class="trash" style="height: 700px; width: 200px; display: inline-block;"> </div>' +
+'           <div class = "code_container" style="height: 700px; width: 200px; display: inline-block; vertical-align: top"><code  class="code" ></code> </div>' +
 '</div>'
     };
 
@@ -449,6 +478,12 @@ $.fn.extend({
         });
 
 
+        $(".code_container").click( function () {
+            
+            $(".code").empty();
+            generarCodigo($workspaceDiv.find(".wrapper").first());
+            
+        });
 
 
 
@@ -459,9 +494,12 @@ $.fn.extend({
         // si el drag viene de tools, debemos clonar el bloque y ademas agregar al bloque todos los eventos de drag and drop
         if (ui.helper.hasClass('dragged_from_toolbar')) { 
             $draggedBlock = ui.draggable.clone();
+
+            $draggedBlock.data("script", $(ui.draggable.context).data('script'));
             addDragToClone($draggedBlock);
             addDropToSlots($draggedBlock);
             $draggedBlock.find('.next').css('min-height','4px'); // cambiar esto en hoja de estilo
+
         }
         // si bloque no viene del toolbox,  simplemente lo pegamos
         else {
@@ -549,6 +587,20 @@ $.fn.extend({
        });
     }
     
+    /*genera codigo para el bloque*/
+    generarCodigo =  function ($bloque) {
+        codigo = $bloque.data("script");
+        $(".code").append("\n" + codigo);
+        console.log("codigo es " + codigo); 
+        $next = $bloque.find(".next").find(".wrapper").first();
+        
+        if ($next.length > 0) {
+            generarCodigo($next);
+        }
+        
+        
+
+    };
     /* routines grabbed from blocks.js */
 
     //block = function (options, scope){
@@ -602,7 +654,9 @@ $.fn.extend({
     }
     */
     
-    /*
+    
+
+    
     wrapper.data('label', opts.label);
     wrapper.data('klass', opts.klass);
     wrapper.data('position', opts.position);
@@ -611,8 +665,7 @@ $.fn.extend({
     wrapper.data('locals', opts.locals);
     wrapper.data('type', opts['type']);
     wrapper.data('containers', opts.containers);
-    */
-    
+        
     if(opts.containers > 1){
         wrapper.data('subContainerLabels', opts['subContainerLabels']);
     }
